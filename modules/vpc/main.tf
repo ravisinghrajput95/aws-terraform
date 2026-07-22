@@ -2,7 +2,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.7.1"
 
-  name = format("cyber-compliance-tsa-%s-vpc", var.environment)
+  name = format("cloudcart-%s-vpc", var.environment)
   cidr = var.vpc_cidr
   azs  = local.azs
 

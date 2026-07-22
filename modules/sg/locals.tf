@@ -1,5 +1,5 @@
 locals {
-  name                = "bastion-eks"
+  name                = "cloudcart-bastion-eks"
   ingress_cidr_blocks = ["44.226.243.221/32"]
   ingress_rules       = ["ssh-tcp"]
   egress_rules        = ["all-all"]

@@ -22,7 +22,7 @@ module "bastion" {
       throughput  = 200
       volume_size = 50
       tags = {
-        Name = "bastion-root-block"
+        Name = "cloudcart-bastion-root-block"
       }
     },
   ]

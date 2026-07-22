@@ -2,7 +2,7 @@ module "ecr" {
   source          = "terraform-aws-modules/ecr/aws"
   version         = "~> 2.0"
   for_each        = toset(var.repository_names)
-  repository_name = each.key
+  repository_name = "cloudcart-${each.key}"
 
   repository_image_scan_on_push   = local.repository_image_scan_on_push
   repository_image_tag_mutability = local.repository_image_tag_mutability
@@ -32,7 +32,7 @@ module "ecr" {
 
 # Create IAM policies for pull actions
 resource "aws_iam_policy" "ecr_pull_policy" {
-  name        = "ECRPullPolicy"
+  name        = "cloudcart-ECRPullPolicy"
   description = "Policy to allow pulling images from ECR repositories"
   policy = jsonencode({
     Version = "2012-10-17",
@@ -52,7 +52,7 @@ resource "aws_iam_policy" "ecr_pull_policy" {
 
 # Create IAM policies for push actions
 resource "aws_iam_policy" "ecr_push_policy" {
-  name        = "ECRPushPolicy"
+  name        = "cloudcart-ECRPushPolicy"
   description = "Policy to allow pushing images to ECR repositories"
   policy = jsonencode({
     Version = "2012-10-17",

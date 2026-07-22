@@ -7,10 +7,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "accord-terraform-production-state"
+    bucket         = "cloudcart-terraform-production-state"
     key            = "production/terraform.tfstate"
     region         = "us-west-2"
-    dynamodb_table = "finops-eks-terraform-backend"
+    dynamodb_table = "cloudcart-terraform-production-backend"
     encrypt        = true
   }
 }

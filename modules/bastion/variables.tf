@@ -18,7 +18,7 @@ variable "vpc_id" {
 variable "vpc_name" {
   description = "name of the vpc"
   type        = string
-  default     = "cyber-compliance-tsa"
+  default     = "cloudcart"
 }
 
 variable "public_subnet_ids" {

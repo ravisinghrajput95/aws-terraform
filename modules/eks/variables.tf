@@ -4,7 +4,7 @@ variable "vpc_id" {
 
 variable "vpc_name" {
   type    = string
-  default = "accord-vpc"
+  default = "cloudcart-vpc"
 }
 
 variable "private_subnet_ids" {
