@@ -24,8 +24,9 @@ GitHub Actions workflows:
   envs' remote state).
 - **`checkov.yml`** — static security/compliance analysis, SARIF uploaded to
   GitHub code scanning (`soft_fail`, offline).
-- **`infracost.yml`** — cost estimate per env (defined in `infracost.yml`),
-  parsed from HCL (no AWS needed), posted as a single PR comment.
+- **`infracost.yml`** — cost estimate per env (defined in
+  `.github/infracost.yml`), parsed from HCL (no AWS needed), posted as a single
+  PR comment.
 - **`terraform-docs.yml`** — regenerates each module's `README.md`
   (inputs/outputs tables) and commits the update back to the PR branch.
 - **`packer-bastion.yml`** — validates and builds the bastion AMI (see
