@@ -27,6 +27,12 @@ variable "subnet_ids" {
   default     = []
 }
 
+variable "ami_id" {
+  description = "AMI ID for the bastion. Empty looks up the latest self-owned cloudcart-bastion-* AMI built by Packer (packer/)."
+  type        = string
+  default     = ""
+}
+
 variable "associate_public_ip" {
   description = "Whether to give the bastion a public IP. Keep false for a private, SSM-only bastion."
   type        = bool

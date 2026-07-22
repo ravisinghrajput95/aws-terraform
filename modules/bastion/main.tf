@@ -2,7 +2,7 @@ module "bastion" {
   source                      = "terraform-aws-modules/ec2-instance/aws"
   version                     = "~> 5.0"
   name                        = local.name
-  ami                         = data.aws_ami.amazon_linux.image_id
+  ami                         = var.ami_id != "" ? var.ami_id : data.aws_ami.bastion[0].id
   instance_type               = "t3.large"
   availability_zone           = element(local.azs, 0)
   subnet_id                   = element(var.subnet_ids, 0)

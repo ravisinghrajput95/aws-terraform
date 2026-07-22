@@ -1,11 +1,14 @@
 data "aws_availability_zones" "available" {}
 
-data "aws_ami" "amazon_linux" {
+# Latest self-owned bastion AMI baked by Packer (packer/). Only queried when no
+# explicit ami_id is supplied.
+data "aws_ami" "bastion" {
+  count       = var.ami_id == "" ? 1 : 0
   most_recent = true
-  owners      = ["amazon"]
+  owners      = ["self"]
 
   filter {
     name   = "name"
-    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+    values = ["cloudcart-bastion-*"]
   }
 }

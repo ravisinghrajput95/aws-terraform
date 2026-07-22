@@ -24,6 +24,7 @@ module "bastion" {
   vpc_cidr   = var.vpc_cidr
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnet_ids # private subnet: no public IP, SSM-only
+  ami_id     = var.bastion_ami_id            # empty => latest Packer-built cloudcart-bastion-* AMI
   # associate_public_ip / create_eip / key_name default off (SSM-only)
   security_group_id = module.sg.security_group_id
   iam_role_name     = module.role.iam_role_name
