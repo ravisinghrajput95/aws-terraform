@@ -1,0 +1,37 @@
+name: Terraform Docs
+
+on:
+  pull_request:
+    paths:
+      - "modules/**/*.tf"
+      - ".github/workflows/terraform-docs.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: terraform-docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  docs:
+    name: terraform-docs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # push generated docs back to the PR branch
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Generate module docs
+        uses: terraform-docs/gh-actions@v1
+        with:
+          working-dir: .
+          recursive: true
+          recursive-path: modules
+          output-file: README.md
+          output-method: inject
+          git-push: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+          git-commit-message: "docs: terraform-docs auto-update"
