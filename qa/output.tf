@@ -52,20 +52,20 @@ output "private_subnets_cidr_blocks" {
 
 output "db_instance_address" {
   description = "The address of the RDS instance"
-  value       = module.rds.db_instance_address
+  value       = module.postgres.db_instance_address
 }
 
 output "db_instance_arn" {
   description = "The ARN of the RDS instance"
-  value       = module.rds.db_instance_arn
+  value       = module.postgres.db_instance_arn
 }
 
 output "db_instance_availability_zone" {
   description = "The availability zone of the RDS instance"
-  value       = module.rds.db_instance_availability_zone
+  value       = module.postgres.db_instance_availability_zone
 }
 
 output "db_instance_endpoint" {
   description = "The connection endpoint"
-  value       = module.rds.db_instance_endpoint
+  value       = module.postgres.db_instance_endpoint
 }

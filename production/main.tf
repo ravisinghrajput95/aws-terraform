@@ -5,8 +5,8 @@ module "vpc" {
 
 }
 
-module "rds" {
-  source               = "../modules/rds"
+module "postgres" {
+  source               = "../modules/postgres"
   environment          = var.environment
   vpc_id               = module.vpc.vpc_id
   private_subnet_ids   = module.vpc.private_subnet_ids

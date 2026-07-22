@@ -5,8 +5,8 @@ module "vpc" {
 
 }
 
-module "rds" {
-  source               = "../modules/rds"
+module "postgres" {
+  source               = "../modules/postgres"
   environment          = var.environment
   vpc_id               = module.vpc.vpc_id
   private_subnet_ids   = module.vpc.private_subnet_ids
@@ -21,6 +21,6 @@ module "eks" {
   vpc_id                     = module.vpc.vpc_id
   private_subnet_ids         = module.vpc.private_subnet_ids
   vpc_cidr                   = var.vpc_cidr
-  bastion_complete_public_ip = module.bastion.bastion_complete_public_ip
-  security_group_id          = module.sg.security_group_id
+  bastion_complete_public_ip = data.terraform_remote_state.dev.outputs.bastion_complete_public_ip
+  security_group_id          = data.terraform_remote_state.dev.outputs.security_group_id
 }

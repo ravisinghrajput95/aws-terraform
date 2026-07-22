@@ -1,5 +1,6 @@
 module "bastion" {
   source                      = "terraform-aws-modules/ec2-instance/aws"
+  version                     = "~> 5.0"
   name                        = local.name
   ami                         = data.aws_ami.amazon_linux.image_id
   instance_type               = "t3.large"
@@ -25,7 +26,7 @@ module "bastion" {
       }
     },
   ]
-  
+
   tags = local.tags
 }
 

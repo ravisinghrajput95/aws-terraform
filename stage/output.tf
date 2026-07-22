@@ -52,25 +52,20 @@ output "private_subnets_cidr_blocks" {
 
 output "db_instance_address" {
   description = "The address of the RDS instance"
-  value       = module.rds.db_instance_address
+  value       = module.postgres.db_instance_address
 }
 
 output "db_instance_arn" {
   description = "The ARN of the RDS instance"
-  value       = module.rds.db_instance_arn
-}
-
-output "bastion_complete_public_ip" {
-  description = "The public IP address assigned to the instance, if applicable. NOTE: If you are using an aws_eip with your instance, you should refer to the EIP's address directly and not use `public_ip` as this field will change after the EIP is attached"
-  value       = module.bastion.bastion_complete_public_ip
+  value       = module.postgres.db_instance_arn
 }
 
 output "db_instance_availability_zone" {
   description = "The availability zone of the RDS instance"
-  value       = module.rds.db_instance_availability_zone
+  value       = module.postgres.db_instance_availability_zone
 }
 
 output "db_instance_endpoint" {
   description = "The connection endpoint"
-  value       = module.rds.db_instance_endpoint
+  value       = module.postgres.db_instance_endpoint
 }
