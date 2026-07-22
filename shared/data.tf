@@ -10,7 +10,7 @@ data "terraform_remote_state" "dev" {
 data "terraform_remote_state" "qa" {
   backend = "s3"
   config = {
-    bucket = "cloudcart-terraform-backend"
+    bucket = "cloudcart-qa-terraform-state"
     key    = "qa/terraform.tfstate"
     region = "us-west-2"
   }
@@ -19,7 +19,7 @@ data "terraform_remote_state" "qa" {
 data "terraform_remote_state" "stage" {
   backend = "s3"
   config = {
-    bucket = "cloudcart-terraform-backend"
+    bucket = "cloudcart-stage-terraform-state"
     key    = "stage/terraform.tfstate"
     region = "us-west-2"
   }
@@ -28,7 +28,7 @@ data "terraform_remote_state" "stage" {
 data "terraform_remote_state" "production" {
   backend = "s3"
   config = {
-    bucket = "cloudcart-terraform-production-state"
+    bucket = "cloudcart-production-terraform-state"
     key    = "production/terraform.tfstate"
     region = "us-west-2"
   }
