@@ -1,6 +1,8 @@
 # Shared/hub configuration.
 # vpc_cidr is optional (defaults to 172.31.0.0/24).
 
-# Lock SSH to your admin IP/CIDR(s). SSM Session Manager also works, so you
-# can set this to [] to disable SSH entirely and rely on SSM only.
-ssh_ingress_cidrs = ["203.0.113.10/32"]
+# The bastion is private (no public IP) and reached via SSM Session Manager,
+# so SSH is disabled by default (ssh_ingress_cidrs = []). Only set this if you
+# specifically want SSH as well — and note it would only be reachable from
+# within the VPC or a peered network, since there is no public IP.
+# ssh_ingress_cidrs = []

@@ -1,9 +1,7 @@
 locals {
-  name                 = "cloudcart-bastion"
-  vpc_cidr             = var.vpc_cidr
-  azs                  = slice(data.aws_availability_zones.available.names, 0, 3)
-  key_name             = "cloudcart-bastion"
-  iam_instance_profile = "cloudcart-bastion-role"
+  name     = "cloudcart-bastion"
+  vpc_cidr = var.vpc_cidr
+  azs      = slice(data.aws_availability_zones.available.names, 0, 3)
 
   # Bootstrap the bastion with tooling for EKS and RDS/Postgres operations.
   user_data = <<-EOT

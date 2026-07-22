@@ -11,7 +11,7 @@ variable "vpc_cidr" {
 }
 
 variable "ssh_ingress_cidrs" {
-  description = "CIDRs allowed to SSH into the bastion. SSM Session Manager is also available, so SSH is optional — lock this to your admin IP/CIDR, or set [] to disable SSH and use SSM only."
+  description = "CIDRs allowed to SSH into the bastion. Defaults to [] (SSM Session Manager only, no inbound). Set to your admin CIDR(s) only if you also want SSH — note the private bastion has no public IP, so SSH would require in-VPC/peered access."
   type        = list(string)
-  default     = ["44.226.243.221/32"]
+  default     = []
 }

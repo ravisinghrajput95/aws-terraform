@@ -20,10 +20,11 @@ module "role" {
 }
 
 module "bastion" {
-  source            = "../modules/bastion"
-  vpc_cidr          = var.vpc_cidr
-  vpc_id            = module.vpc.vpc_id
-  public_subnet_ids = module.vpc.public_subnet_ids
+  source     = "../modules/bastion"
+  vpc_cidr   = var.vpc_cidr
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnet_ids # private subnet: no public IP, SSM-only
+  # associate_public_ip / create_eip / key_name default off (SSM-only)
   security_group_id = module.sg.security_group_id
   iam_role_name     = module.role.iam_role_name
 }
@@ -104,6 +105,12 @@ resource "aws_iam_role_policy" "bastion_ops" {
         Effect   = "Allow"
         Action   = ["secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret"]
         Resource = "arn:aws:secretsmanager:*:*:secret:cloudcart-*-db-password*"
+      },
+      {
+        Sid      = "SessionLogs"
+        Effect   = "Allow"
+        Action   = ["logs:CreateLogStream", "logs:PutLogEvents", "logs:DescribeLogStreams", "logs:DescribeLogGroups"]
+        Resource = "${aws_cloudwatch_log_group.ssm_sessions.arn}:*"
       },
     ]
   })

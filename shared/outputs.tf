@@ -8,9 +8,9 @@ output "shared_vpc_cidr" {
   value       = var.vpc_cidr
 }
 
-output "bastion_public_ip" {
-  description = "Public IP of the shared bastion host"
-  value       = module.bastion.bastion_complete_public_ip
+output "bastion_private_ip" {
+  description = "Private IP of the shared bastion host (no public IP — reach it via SSM)"
+  value       = module.bastion.bastion_complete_private_ip
 }
 
 output "bastion_id" {
