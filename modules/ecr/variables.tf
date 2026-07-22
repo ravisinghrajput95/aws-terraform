@@ -1,6 +1,3 @@
-variable "region" {
-  description = "The AWS region where resources will be created"
-}
 
 variable "environment" {
   description = "The environment to provision the resources"

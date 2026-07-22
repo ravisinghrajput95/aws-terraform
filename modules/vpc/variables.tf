@@ -1,8 +1,3 @@
-variable "aws_region" {
-  description = "AWS  region where all services will be provisioned"
-  type        = string
-  default     = "us-west-2"
-}
 
 variable "vpc_name" {
   description = "Name of AWS VPC"

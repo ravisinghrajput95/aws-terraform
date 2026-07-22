@@ -1,13 +1,15 @@
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.0 |
 
 ## Modules
 
@@ -36,7 +38,6 @@ No requirements.
 |------|-------------|------|---------|:--------:|
 | <a name="input_account_id"></a> [account\_id](#input\_account\_id) | The AWS account ID | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment to provision the resources | `any` | n/a | yes |
-| <a name="input_region"></a> [region](#input\_region) | The AWS region where resources will be created | `any` | n/a | yes |
 | <a name="input_repository_names"></a> [repository\_names](#input\_repository\_names) | The names of the ECR repositories | `list(string)` | n/a | yes |
 
 ## Outputs

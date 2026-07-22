@@ -1,13 +1,15 @@
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.0 |
 
 ## Modules
 
@@ -39,7 +41,6 @@ No requirements.
 | <a name="input_private_subnet_prefix"></a> [private\_subnet\_prefix](#input\_private\_subnet\_prefix) | Prefix to be used for Private subnet name | `string` | `"Private"` | no |
 | <a name="input_public_subnet"></a> [public\_subnet](#input\_public\_subnet) | Prefix to be used for Private subnet name | `string` | `"Public"` | no |
 | <a name="input_public_subnet_prefix"></a> [public\_subnet\_prefix](#input\_public\_subnet\_prefix) | Prefix to be used for Public subnet name | `string` | `"Public"` | no |
-| <a name="input_region"></a> [region](#input\_region) | AWS region to deploy our resources | `string` | `"us-west-2"` | no |
 | <a name="input_username"></a> [username](#input\_username) | n/a | `string` | `"cloudcart_user"` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `string` | n/a | yes |
 | <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | Name of AWS VPC | `string` | `"cloudcart-vpc"` | no |
