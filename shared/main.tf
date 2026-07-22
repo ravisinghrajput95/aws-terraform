@@ -2,10 +2,11 @@
 # Shared/hub VPC + bastion
 ########################################
 module "vpc" {
-  source         = "../modules/vpc"
-  environment    = "shared"
-  vpc_cidr       = var.vpc_cidr
-  subnet_newbits = 2 # /24 -> /26 subnets
+  source             = "../modules/vpc"
+  environment        = "shared"
+  vpc_cidr           = var.vpc_cidr
+  subnet_newbits     = 2              # /24 -> /26 subnets
+  enable_nat_gateway = var.enable_nat # default false: bastion reaches AWS via VPC endpoints
 }
 
 module "sg" {

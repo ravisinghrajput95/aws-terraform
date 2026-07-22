@@ -32,6 +32,12 @@ variable "subnet_newbits" {
   default     = 8
 }
 
+variable "enable_nat_gateway" {
+  description = "Provision a NAT gateway for private-subnet internet egress. Spokes need it; the shared bastion VPC can set this false and rely on VPC endpoints."
+  type        = bool
+  default     = true
+}
+
 
 variable "private_subnet" {
   description = "Prefix to be used for Private subnet name"

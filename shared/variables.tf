@@ -10,6 +10,12 @@ variable "vpc_cidr" {
   default     = "172.31.0.0/24"
 }
 
+variable "enable_nat" {
+  description = "Provision a NAT gateway in the shared VPC. Default false — the baked bastion AMI needs no internet at boot, and AWS APIs are reached via VPC endpoints."
+  type        = bool
+  default     = false
+}
+
 variable "bastion_ami_id" {
   description = "AMI for the bastion. Empty uses the latest Packer-built cloudcart-bastion-* AMI; set an ami-... ID to pin a specific build."
   type        = string
