@@ -14,6 +14,9 @@ locals {
   yum update -y
   yum install -y jq git unzip tar bash-completion
 
+  # Ensure the SSM agent is running for Session Manager access (pre-installed on AL2)
+  systemctl enable --now amazon-ssm-agent
+
   # psql client for RDS Postgres
   amazon-linux-extras enable postgresql14
   yum install -y postgresql

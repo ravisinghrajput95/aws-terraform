@@ -9,9 +9,10 @@ module "vpc" {
 }
 
 module "sg" {
-  source   = "../modules/sg"
-  vpc_cidr = var.vpc_cidr
-  vpc_id   = module.vpc.vpc_id
+  source            = "../modules/sg"
+  vpc_cidr          = var.vpc_cidr
+  vpc_id            = module.vpc.vpc_id
+  ssh_ingress_cidrs = var.ssh_ingress_cidrs
 }
 
 module "role" {
@@ -66,6 +67,14 @@ resource "aws_eks_access_policy_association" "bastion" {
   }
 
   depends_on = [aws_eks_access_entry.bastion]
+}
+
+########################################
+# SSM Session Manager access to the bastion
+########################################
+resource "aws_iam_role_policy_attachment" "bastion_ssm" {
+  role       = module.role.iam_role_name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
 ########################################
