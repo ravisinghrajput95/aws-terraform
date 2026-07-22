@@ -14,6 +14,9 @@ concurrency:
   group: terraform-docs-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  TERRAFORM_DOCS_VERSION: "v0.19.0"
+
 jobs:
   docs:
     name: terraform-docs
@@ -25,13 +28,30 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Generate module docs
-        uses: terraform-docs/gh-actions@v1
-        with:
-          working-dir: .
-          recursive: true
-          recursive-path: modules
-          output-file: README.md
-          output-method: inject
-          git-push: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
-          git-commit-message: "docs: terraform-docs auto-update"
+      - name: Install terraform-docs
+        run: |
+          curl -sSLo /tmp/tfdocs.tgz \
+            "https://github.com/terraform-docs/terraform-docs/releases/download/${TERRAFORM_DOCS_VERSION}/terraform-docs-${TERRAFORM_DOCS_VERSION}-linux-amd64.tar.gz"
+          tar -xzf /tmp/tfdocs.tgz -C /tmp terraform-docs
+          sudo install /tmp/terraform-docs /usr/local/bin/terraform-docs
+          terraform-docs --version
+
+      - name: Generate per-module docs
+        run: |
+          for d in modules/*/; do
+            terraform-docs markdown table --output-file README.md --output-mode inject "$d"
+          done
+
+      - name: Commit docs back to the PR branch
+        # Only same-repo PRs can push; fork PRs generate but skip the commit.
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          if [ -z "$(git status --porcelain modules)" ]; then
+            echo "Module docs already up to date."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add modules/*/README.md
+          git commit -m "docs: terraform-docs auto-update"
+          git push origin "HEAD:${{ github.head_ref }}"
