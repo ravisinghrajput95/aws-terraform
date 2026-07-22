@@ -1,4 +1,6 @@
 terraform {
+  required_version = ">= 1.10"
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -7,11 +9,11 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "cloudcart-terraform-production-state"
-    key            = "production/terraform.tfstate"
-    region         = "us-west-2"
-    dynamodb_table = "cloudcart-terraform-production-backend"
-    encrypt        = true
+    bucket       = "cloudcart-production-terraform-state"
+    key          = "production/terraform.tfstate"
+    region       = "us-west-2"
+    encrypt      = true
+    use_lockfile = true
   }
 }
 

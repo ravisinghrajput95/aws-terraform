@@ -5,6 +5,15 @@ Terraform configuration that provisions CloudCart's AWS infrastructure across
 RDS Postgres, ECR, bastion, security groups, IAM). All provisioned resources
 are named with the `cloudcart` prefix.
 
+## State backend
+
+Each environment stores state in its own S3 bucket
+(`cloudcart-<env>-terraform-state`) with **S3-native locking**
+(`use_lockfile = true`, requires Terraform >= 1.10) — no DynamoDB.
+
+Those buckets are created by the **`bootstrap/`** config (local backend), which
+must be applied once before anything else. See `bootstrap/README.md`.
+
 ## CI/CD
 
 GitHub Actions workflows:
