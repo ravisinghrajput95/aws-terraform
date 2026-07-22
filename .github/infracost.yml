@@ -3,7 +3,7 @@
 version: 0.1
 
 projects:
-  - path: dev
+  - path: ../dev
     name: dev
     terraform_vars:
       environment: dev
@@ -11,21 +11,21 @@ projects:
       account_id: "123456789012"
       repository_names: ["dev-repo1"]
 
-  - path: qa
+  - path: ../qa
     name: qa
     terraform_vars:
       environment: qa
       vpc_cidr: "172.33.0.0/16"
       repository_names: ["qa-repo1"]
 
-  - path: stage
+  - path: ../stage
     name: stage
     terraform_vars:
       environment: stage
       vpc_cidr: "172.34.0.0/16"
       repository_names: ["stage-repo1"]
 
-  - path: production
+  - path: ../production
     name: production
     terraform_vars:
       environment: production
@@ -33,5 +33,5 @@ projects:
       account_id: "123456789012"
       repository_names: ["prod-repo1"]
 
-  - path: shared
+  - path: ../shared
     name: shared

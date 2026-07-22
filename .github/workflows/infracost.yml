@@ -5,7 +5,7 @@ on:
     paths:
       - "**.tf"
       - "**.tf.json"
-      - "infracost.yml"
+      - ".github/infracost.yml"
       - ".github/workflows/infracost.yml"
 
 permissions:
@@ -34,7 +34,7 @@ jobs:
       # Parses HCL directly (no terraform init/plan, no AWS credentials needed).
       - name: Infracost breakdown
         run: |
-          infracost breakdown --config-file=infracost.yml \
+          infracost breakdown --config-file=.github/infracost.yml \
             --format=json --out-file=/tmp/infracost.json
 
       - name: Post cost comment
