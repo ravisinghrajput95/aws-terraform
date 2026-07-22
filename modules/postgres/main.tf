@@ -76,16 +76,27 @@ module "security_group" {
   description = "SG for Postgres RDS instance"
   vpc_id      = var.vpc_id
 
-  # ingress
-  ingress_with_cidr_blocks = [
-    {
-      from_port   = local.port
-      to_port     = local.port
-      protocol    = local.protocol
-      description = "Postgress RDS instance access from within VPC"
-      cidr_blocks = var.cidr_blocks
-    },
-  ]
+  # ingress: from within the VPC, plus (optionally) the shared bastion VPC
+  ingress_with_cidr_blocks = concat(
+    [
+      {
+        from_port   = local.port
+        to_port     = local.port
+        protocol    = local.protocol
+        description = "Postgres RDS access from within VPC"
+        cidr_blocks = var.cidr_blocks
+      },
+    ],
+    var.bastion_cidr != "" ? [
+      {
+        from_port   = local.port
+        to_port     = local.port
+        protocol    = local.protocol
+        description = "Postgres RDS access from shared bastion VPC"
+        cidr_blocks = var.bastion_cidr
+      },
+    ] : []
+  )
 
   tags = local.tags
 }

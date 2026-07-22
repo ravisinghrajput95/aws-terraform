@@ -5,12 +5,11 @@ module "eks" {
   cluster_name                    = "${local.name}-${var.environment}"
   cluster_version                 = local.cluster_version
   cluster_endpoint_private_access = true
+  cluster_endpoint_public_access  = false
 
 
   enable_cluster_creator_admin_permissions = false
   authentication_mode                      = local.authentication_mode
-
-  cluster_endpoint_public_access_cidrs = ["${var.bastion_complete_public_ip}/32"]
 
   cluster_addons = {
     kube-proxy = {
@@ -57,15 +56,15 @@ module "eks" {
     }
 
   }
-  ## Enable access from bastion host to EKS endpoint
+  ## Allow API access from the shared bastion VPC (reached over VPC peering)
   cluster_security_group_additional_rules = {
     ingress_bastion = {
-      description              = "Allow access from Bastion Host"
-      type                     = "ingress"
-      from_port                = 443
-      to_port                  = 443
-      protocol                 = "tcp"
-      source_security_group_id = var.security_group_id
+      description = "Allow API access from shared bastion VPC"
+      type        = "ingress"
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_blocks = [var.bastion_cidr]
     }
   }
 
@@ -92,7 +91,10 @@ module "eks" {
     }
   }
 
-  access_entries = {
+  # Optional in-module access entry. The shared/hub config manages the
+  # bastion's access entries out-of-band, so this stays empty unless an
+  # explicit role ARN is supplied.
+  access_entries = var.iam_role_arn != "" ? {
     devops = {
       principal_arn = var.iam_role_arn
       policy_associations = {
@@ -105,7 +107,7 @@ module "eks" {
         }
       }
     }
-  }
+  } : {}
 
   tags = local.tags
 

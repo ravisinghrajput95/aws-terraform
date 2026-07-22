@@ -96,3 +96,8 @@ variable "repository_names" {
   description = "The names of the ECR repositories"
   type        = list(string)
 }
+variable "bastion_cidr" {
+  description = "CIDR of the shared bastion VPC, allowed into the EKS API and RDS over VPC peering"
+  type        = string
+  default     = "172.31.0.0/24"
+}

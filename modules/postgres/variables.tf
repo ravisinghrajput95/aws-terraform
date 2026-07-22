@@ -63,6 +63,12 @@ variable "cidr_blocks" {
   type        = string
 }
 
+variable "bastion_cidr" {
+  description = "CIDR of the shared bastion VPC allowed to reach the DB over peering (empty to disable)"
+  type        = string
+  default     = ""
+}
+
 variable "private_subnet_names" {
   description = "Private subnet name "
   type        = list(string)

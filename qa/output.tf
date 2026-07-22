@@ -79,3 +79,8 @@ output "db_secret_name" {
   description = "Name of the Secrets Manager secret holding the DB credentials"
   value       = module.db_secret.secret_name
 }
+
+output "cluster_name" {
+  description = "EKS cluster name (used by the shared config to grant bastion access)"
+  value       = module.eks.cluster_name
+}

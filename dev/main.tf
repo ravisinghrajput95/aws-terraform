@@ -18,36 +18,16 @@ module "postgres" {
   private_subnet_names = module.vpc.private_subnets
   username             = module.db_secret.username
   password             = module.db_secret.password
+  bastion_cidr         = var.bastion_cidr
 }
 
 module "eks" {
-  source                     = "../modules/eks"
-  environment                = var.environment
-  vpc_id                     = module.vpc.vpc_id
-  private_subnet_ids         = module.vpc.private_subnet_ids
-  vpc_cidr                   = var.vpc_cidr
-  bastion_complete_public_ip = module.bastion.bastion_complete_public_ip
-  security_group_id          = module.sg.security_group_id
-  iam_role_arn               = module.role.iam_role_arn
-}
-
-module "bastion" {
-  source            = "../modules/bastion"
-  vpc_cidr          = var.vpc_cidr
-  vpc_id            = module.vpc.vpc_id
-  public_subnet_ids = module.vpc.public_subnet_ids
-  security_group_id = module.sg.security_group_id
-  iam_role_name     = module.role.iam_role_name
-}
-
-module "sg" {
-  source   = "../modules/sg"
-  vpc_cidr = var.vpc_cidr
-  vpc_id   = module.vpc.vpc_id
-}
-
-module "role" {
-  source = "../modules/role"
+  source             = "../modules/eks"
+  environment        = var.environment
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+  vpc_cidr           = var.vpc_cidr
+  bastion_cidr       = var.bastion_cidr
 }
 
 module "ecr" {

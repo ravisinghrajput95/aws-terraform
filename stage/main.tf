@@ -19,14 +19,14 @@ module "postgres" {
   private_subnet_names = module.vpc.private_subnets
   username             = module.db_secret.username
   password             = module.db_secret.password
+  bastion_cidr         = var.bastion_cidr
 }
 
 module "eks" {
-  source                     = "../modules/eks"
-  environment                = var.environment
-  vpc_id                     = module.vpc.vpc_id
-  private_subnet_ids         = module.vpc.private_subnet_ids
-  vpc_cidr                   = var.vpc_cidr
-  bastion_complete_public_ip = data.terraform_remote_state.dev.outputs.bastion_complete_public_ip
-  security_group_id          = data.terraform_remote_state.dev.outputs.security_group_id
+  source             = "../modules/eks"
+  environment        = var.environment
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+  vpc_cidr           = var.vpc_cidr
+  bastion_cidr       = var.bastion_cidr
 }
