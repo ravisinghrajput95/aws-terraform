@@ -15,8 +15,8 @@ variable "environment" {
   type        = string
 
   validation {
-    condition     = contains(["dev", "qa", "stage", "production"], var.environment)
-    error_message = "Environment must be one of: dev, qa, stage, production"
+    condition     = contains(["dev", "qa", "stage", "production", "shared"], var.environment)
+    error_message = "Environment must be one of: dev, qa, stage, production, shared"
   }
 }
 
@@ -24,6 +24,18 @@ variable "vpc_cidr" {
   description = "CIDR block for the VPC"
   type        = string
 
+}
+
+variable "subnet_newbits" {
+  description = "Additional bits to extend the VPC prefix by when carving subnets (8 => /24 subnets from a /16; use a smaller value for a shorter VPC CIDR)"
+  type        = number
+  default     = 8
+}
+
+variable "enable_nat_gateway" {
+  description = "Provision a NAT gateway for private-subnet internet egress. Spokes need it; the shared bastion VPC can set this false and rely on VPC endpoints."
+  type        = bool
+  default     = true
 }
 
 

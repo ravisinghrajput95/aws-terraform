@@ -101,47 +101,6 @@ output "kubeconfig" {
     EOF
 }
 
-output "bastion_complete_id" {
-  description = "The ID of the instance"
-  value       = module.bastion.bastion_complete_id
-}
-
-output "bastion_complete_arn" {
-  description = "The ARN of the instance"
-  value       = module.bastion.bastion_complete_arn
-}
-
-output "bastion_complete_public_ip" {
-  description = "The public IP address assigned to the instance, if applicable. NOTE: If you are using an aws_eip with your instance, you should refer to the EIP's address directly and not use `public_ip` as this field will change after the EIP is attached"
-  value       = module.bastion.bastion_complete_public_ip
-}
-
-output "bastion_complete_root_block_device" {
-  description = "Root block device information"
-  value       = module.bastion.bastion_complete_root_block_device
-}
-
-output "bastion_complete_ebs_block_device" {
-  description = "EBS block device information"
-  value       = module.bastion.bastion_complete_ebs_block_device
-}
-
-output "security_group_id" {
-  value = module.sg.security_group_id
-}
-
-output "security_group_arn" {
-  value = module.sg.security_group_arn
-}
-
-output "iam_role_arn" {
-  value = module.role.iam_role_arn
-}
-
-output "iam_role_name" {
-  value = module.role.iam_role_name
-}
-
 output "dev_ecr_repository_arns" {
   description = "ARNs of the created ECR repositories in the dev module"
   value       = module.ecr.ecr_repository_arns
@@ -185,4 +144,9 @@ output "db_secret_arn" {
 output "db_secret_name" {
   description = "Name of the Secrets Manager secret holding the DB credentials"
   value       = module.db_secret.secret_name
+}
+
+output "cluster_name" {
+  description = "EKS cluster name (used by the shared config to grant bastion access)"
+  value       = module.eks.cluster_name
 }

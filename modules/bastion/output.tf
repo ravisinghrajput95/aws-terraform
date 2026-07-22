@@ -8,9 +8,14 @@ output "bastion_complete_arn" {
   value       = module.bastion.arn
 }
 
+output "bastion_complete_private_ip" {
+  description = "The private IP address of the instance"
+  value       = module.bastion.private_ip
+}
+
 output "bastion_complete_public_ip" {
-  description = "The public IP address assigned to the instance"
-  value       = resource.aws_eip.bastion.public_ip
+  description = "The public IP address of the instance (null for a private SSM-only bastion)"
+  value       = length(aws_eip.bastion) > 0 ? aws_eip.bastion[0].public_ip : null
 }
 
 output "bastion_complete_root_block_device" {

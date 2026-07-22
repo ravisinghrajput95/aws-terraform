@@ -32,13 +32,8 @@ variable "region" {
   default     = "us-west-2"
 }
 
-variable "bastion_complete_public_ip" {
-  description = "Public ip of the bastion host"
-  type        = string
-}
-
-variable "security_group_id" {
-  description = "security group id for inbound/outbound traffic"
+variable "bastion_cidr" {
+  description = "CIDR of the shared bastion VPC allowed to reach the cluster API over peering"
   type        = string
 }
 
