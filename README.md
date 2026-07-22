@@ -7,12 +7,16 @@ are named with the `cloudcart` prefix.
 
 ## CI/CD
 
-Two GitHub Actions workflows:
+GitHub Actions workflows:
 
 - **`terraform-ci.yml`** — on Terraform changes: `fmt`, `validate` (all envs,
-  offline), `checkov` (SARIF → code scanning), and `plan` + `infracost` for the
-  spoke envs (dev/qa/stage/production) via AWS OIDC. `shared` is validated but
-  not planned in CI (it depends on the other envs' remote state).
+  offline), and `plan` for the spoke envs (dev/qa/stage/production) via AWS
+  OIDC. `shared` is validated but not planned in CI (it depends on the other
+  envs' remote state).
+- **`checkov.yml`** — static security/compliance analysis, SARIF uploaded to
+  GitHub code scanning (`soft_fail`, offline).
+- **`infracost.yml`** — cost estimate per env (defined in `infracost.yml`),
+  parsed from HCL (no AWS needed), posted as a single PR comment.
 - **`terraform-docs.yml`** — regenerates each module's `README.md`
   (inputs/outputs tables) and commits the update back to the PR branch.
 - **`packer-bastion.yml`** — validates and builds the bastion AMI (see
@@ -33,7 +37,7 @@ Two GitHub Actions workflows:
 
 | Name | Used by | Purpose |
 |---|---|---|
-| `INFRACOST_API_KEY` | terraform-ci | Infracost cost estimates/comments |
+| `INFRACOST_API_KEY` | infracost | Infracost cost estimates/comments |
 | `AWS_ACCOUNT_ID` | terraform-ci | value for the `account_id` variable during plan |
 
 Both workflows authenticate with **GitHub OIDC** — no long-lived AWS keys.

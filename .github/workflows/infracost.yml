@@ -1,0 +1,47 @@
+name: Infracost
+
+on:
+  pull_request:
+    paths:
+      - "**.tf"
+      - "**.tf.json"
+      - "infracost.yml"
+      - ".github/workflows/infracost.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: infracost-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  infracost:
+    name: infracost
+    # Needs the API key — skip for fork PRs (no access to secrets).
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # post/update the cost comment
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: infracost/actions/setup@v3
+        with:
+          api-key: ${{ secrets.INFRACOST_API_KEY }}
+
+      # Parses HCL directly (no terraform init/plan, no AWS credentials needed).
+      - name: Infracost breakdown
+        run: |
+          infracost breakdown --config-file=infracost.yml \
+            --format=json --out-file=/tmp/infracost.json
+
+      - name: Post cost comment
+        run: |
+          infracost comment github \
+            --path=/tmp/infracost.json \
+            --repo="$GITHUB_REPOSITORY" \
+            --github-token="${{ github.token }}" \
+            --pull-request="${{ github.event.pull_request.number }}" \
+            --behavior=update
