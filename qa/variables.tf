@@ -45,11 +45,6 @@ variable "public_subnet_prefix" {
   default     = "Public"
 }
 
-variable "password" {
-  description = "Master user password for the RDS DB instance"
-  type        = string
-  sensitive   = true # Mark the variable as sensitive to mask its value in logs and outputs
-}
 
 variable "region" {
   description = "AWS region to deploy our resources"

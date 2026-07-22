@@ -69,3 +69,13 @@ output "db_instance_endpoint" {
   description = "The connection endpoint"
   value       = module.postgres.db_instance_endpoint
 }
+
+output "db_secret_arn" {
+  description = "ARN of the Secrets Manager secret holding the DB credentials"
+  value       = module.db_secret.secret_arn
+}
+
+output "db_secret_name" {
+  description = "Name of the Secrets Manager secret holding the DB credentials"
+  value       = module.db_secret.secret_name
+}

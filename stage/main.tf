@@ -5,6 +5,11 @@ module "vpc" {
 
 }
 
+module "db_secret" {
+  source      = "../modules/secrets"
+  environment = var.environment
+}
+
 module "postgres" {
   source               = "../modules/postgres"
   environment          = var.environment
@@ -12,7 +17,8 @@ module "postgres" {
   private_subnet_ids   = module.vpc.private_subnet_ids
   cidr_blocks          = module.vpc.vpc_cidr_block
   private_subnet_names = module.vpc.private_subnets
-  password             = var.password
+  username             = module.db_secret.username
+  password             = module.db_secret.password
 }
 
 module "eks" {

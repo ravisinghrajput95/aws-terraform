@@ -176,3 +176,13 @@ output "dev_ecr_push_pull_group_users" {
   description = "Users assigned to the push and pull group for ECR in the dev module"
   value       = module.ecr.ecr_push_pull_group_users
 }
+
+output "db_secret_arn" {
+  description = "ARN of the Secrets Manager secret holding the DB credentials"
+  value       = module.db_secret.secret_arn
+}
+
+output "db_secret_name" {
+  description = "Name of the Secrets Manager secret holding the DB credentials"
+  value       = module.db_secret.secret_name
+}
