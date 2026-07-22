@@ -38,28 +38,3 @@ Two GitHub Actions workflows:
 
 Both workflows authenticate with **GitHub OIDC** — no long-lived AWS keys.
 `plan`/`infracost` never run for fork PRs.
-<!-- BEGIN_TF_DOCS -->
-## Requirements
-
-No requirements.
-
-## Providers
-
-No providers.
-
-## Modules
-
-No modules.
-
-## Resources
-
-No resources.
-
-## Inputs
-
-No inputs.
-
-## Outputs
-
-No outputs.
-<!-- END_TF_DOCS -->
