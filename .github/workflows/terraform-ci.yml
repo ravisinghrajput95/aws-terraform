@@ -1,0 +1,168 @@
+name: Terraform CI
+
+on:
+  pull_request:
+    paths:
+      - "**.tf"
+      - "**.tf.json"
+      - ".github/workflows/terraform-ci.yml"
+  push:
+    branches: [main]
+    paths:
+      - "**.tf"
+      - "**.tf.json"
+      - ".github/workflows/terraform-ci.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: terraform-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TF_VERSION: "1.9.8"
+  AWS_REGION: ${{ vars.AWS_REGION || 'us-west-2' }}
+
+jobs:
+  fmt:
+    name: fmt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: false
+      - name: terraform fmt
+        run: terraform fmt -check -recursive -diff
+
+  validate:
+    name: validate (${{ matrix.dir }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dir: [dev, qa, stage, production, shared]
+    defaults:
+      run:
+        working-directory: ${{ matrix.dir }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: false
+      - name: terraform init (no backend)
+        run: terraform init -backend=false -input=false
+      - name: terraform validate
+        run: terraform validate -no-color
+
+  checkov:
+    name: checkov
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write # upload SARIF to code scanning
+    steps:
+      - uses: actions/checkout@v4
+      - name: Checkov
+        id: checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: .
+          framework: terraform
+          output_format: cli,sarif
+          output_file_path: console,results.sarif
+          soft_fail: true # report but don't block; flip to false to gate merges
+      - name: Upload SARIF
+        if: always() && hashFiles('results.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
+
+  plan:
+    name: plan (${{ matrix.dir }})
+    # Needs AWS + secrets — never run for fork PRs.
+    if: >-
+      github.event_name == 'push' ||
+      github.event.pull_request.head.repo.full_name == github.repository
+    needs: [fmt, validate]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # AWS OIDC
+      pull-requests: write # Infracost comment
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dir: dev
+            vpc_cidr: "172.32.0.0/16"
+            repository_names: '["dev-repo1","dev-repo2","dev-repo3","dev-repo4"]'
+          - dir: qa
+            vpc_cidr: "172.33.0.0/16"
+            repository_names: '["qa-repo1","qa-repo2","qa-repo3","qa-repo4"]'
+          - dir: stage
+            vpc_cidr: "172.34.0.0/16"
+            repository_names: '["stage-repo1","stage-repo2","stage-repo3","stage-repo4"]'
+          - dir: production
+            vpc_cidr: "172.35.0.0/16"
+            repository_names: '["prod-repo1","prod-repo2","prod-repo3","prod-repo4"]'
+    env:
+      TF_VAR_environment: ${{ matrix.dir }}
+      TF_VAR_vpc_cidr: ${{ matrix.vpc_cidr }}
+      TF_VAR_repository_names: ${{ matrix.repository_names }}
+      TF_VAR_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.dir }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: false
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_TF_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - uses: infracost/actions/setup@v3
+        with:
+          api-key: ${{ secrets.INFRACOST_API_KEY }}
+
+      - name: terraform init
+        run: terraform init -input=false
+
+      - name: terraform plan
+        run: terraform plan -input=false -no-color -lock=false -out=tfplan
+
+      - name: Plan to job summary
+        run: |
+          {
+            echo "### Terraform plan — ${{ matrix.dir }}"
+            echo '```'
+            terraform show -no-color tfplan
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Infracost breakdown
+        run: |
+          terraform show -json tfplan > plan.json
+          infracost breakdown --path=plan.json \
+            --format=json --out-file=/tmp/infracost-${{ matrix.dir }}.json
+
+      - name: Infracost PR comment
+        if: github.event_name == 'pull_request'
+        run: |
+          infracost comment github \
+            --path=/tmp/infracost-${{ matrix.dir }}.json \
+            --repo=$GITHUB_REPOSITORY \
+            --github-token=${{ github.token }} \
+            --pull-request=${{ github.event.pull_request.number }} \
+            --behavior=update \
+            --tag=${{ matrix.dir }}
