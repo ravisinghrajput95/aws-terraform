@@ -23,6 +23,13 @@ variable "ami_version" {
   default = ""
 }
 
+# Optional build subnet. Empty uses the account's default VPC. The build
+# instance needs internet egress to download tooling.
+variable "subnet_id" {
+  type    = string
+  default = ""
+}
+
 locals {
   ami_name = "cloudcart-bastion-${var.ami_version != "" ? var.ami_version : formatdate("YYYYMMDD-hhmmss", timestamp())}"
 }
@@ -34,6 +41,7 @@ source "amazon-ebs" "bastion" {
   instance_type = var.instance_type
   ssh_username  = "ec2-user"
   ami_name      = local.ami_name
+  subnet_id     = var.subnet_id != "" ? var.subnet_id : null
 
   source_ami_filter {
     filters = {

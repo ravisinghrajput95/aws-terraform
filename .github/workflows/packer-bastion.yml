@@ -1,0 +1,108 @@
+name: Packer - Bastion AMI
+
+on:
+  pull_request:
+    paths:
+      - "packer/**"
+      - ".github/workflows/packer-bastion.yml"
+  push:
+    branches: [main]
+    paths:
+      - "packer/**"
+      - ".github/workflows/packer-bastion.yml"
+  workflow_dispatch:
+    inputs:
+      ami_version:
+        description: "Version label for the AMI name (cloudcart-bastion-<version>). Blank = build timestamp."
+        required: false
+        type: string
+      region:
+        description: "AWS region to build in"
+        required: false
+        default: "us-west-2"
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: packer-bastion-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  PACKER_VERSION: "1.11.2"
+  AWS_REGION: ${{ github.event.inputs.region || vars.AWS_REGION || 'us-west-2' }}
+
+defaults:
+  run:
+    working-directory: packer
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-packer@v3
+        with:
+          version: ${{ env.PACKER_VERSION }}
+
+      - name: packer init
+        run: packer init .
+
+      - name: packer fmt (check)
+        run: packer fmt -check -diff .
+
+      - name: packer validate
+        run: packer validate .
+
+  build:
+    name: Build & register AMI
+    needs: validate
+    # Only build on merge to main or a manual run — never on PRs from forks.
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # required for AWS OIDC
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-packer@v3
+        with:
+          version: ${{ env.PACKER_VERSION }}
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_PACKER_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Resolve AMI version
+        id: ver
+        run: |
+          if [ -n "${{ github.event.inputs.ami_version }}" ]; then
+            echo "version=${{ github.event.inputs.ami_version }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=gh-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: packer init
+        run: packer init .
+
+      - name: packer build
+        run: |
+          packer build \
+            -var "region=${AWS_REGION}" \
+            -var "ami_version=${{ steps.ver.outputs.version }}" \
+            -var "subnet_id=${{ vars.PACKER_SUBNET_ID }}" \
+            .
+
+      - name: Summarize built AMI
+        run: |
+          aws ec2 describe-images \
+            --owners self \
+            --filters "Name=name,Values=cloudcart-bastion-${{ steps.ver.outputs.version }}" \
+            --query 'Images[].{ID:ImageId,Name:Name,Created:CreationDate}' \
+            --output table | tee -a "$GITHUB_STEP_SUMMARY"
