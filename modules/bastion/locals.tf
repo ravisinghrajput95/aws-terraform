@@ -1,9 +1,9 @@
 locals {
-  name                 = "bastion"
+  name                 = "cloudcart-bastion"
   vpc_cidr             = var.vpc_cidr
   azs                  = slice(data.aws_availability_zones.available.names, 0, 3)
-  key_name             = "bastion"
-  iam_instance_profile = "bastion-role"
+  key_name             = "cloudcart-bastion"
+  iam_instance_profile = "cloudcart-bastion-role"
   # Installation of docker, kubectl, helm to get started with bastion host
   user_data = <<-EOT
   #!/bin/bash

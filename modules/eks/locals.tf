@@ -1,5 +1,5 @@
 locals {
-  name                = "accord-eks"
+  name                = "cloudcart-eks"
   cluster_version     = "1.30"
   vpc_cidr            = var.vpc_cidr
   azs                 = slice(data.aws_availability_zones.available.names, 0, 3)
@@ -10,7 +10,7 @@ locals {
   desired_size        = 2
   max_size            = 6
   min_size            = 2
-  role_name_prefix    = "VPC-CNI-IRSA"
+  role_name_prefix    = "cloudcart-vpc-cni-irsa"
   policy_arn          = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
   type                = "cluster"
 

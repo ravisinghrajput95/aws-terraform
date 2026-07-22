@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "vpc_name" {
   description = "Name of AWS VPC"
   type        = string
-  default     = "accord-vpc"
+  default     = "cloudcart-vpc"
 }
 
 variable "environment" {

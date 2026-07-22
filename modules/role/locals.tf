@@ -1,4 +1,4 @@
 locals {
-  name      = "bastion"
-  role_name = "bastion-eks-access"
+  name      = "cloudcart-bastion"
+  role_name = "cloudcart-bastion-eks-access"
 }

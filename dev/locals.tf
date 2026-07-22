@@ -1,3 +1,3 @@
 locals {
-  name = "accord-dev"
+  name = "cloudcart-dev"
 }

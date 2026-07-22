@@ -1,6 +1,6 @@
 variable "username" {
   type    = string
-  default = "accord_user"
+  default = "cloudcart_user"
 }
 
 variable "environment" {
@@ -31,7 +31,7 @@ variable "vpc_id" {
 variable "vpc_name" {
   description = "Name of AWS VPC"
   type        = string
-  default     = "accord-vpc"
+  default     = "cloudcart-vpc"
 }
 
 variable "private_subnet" {
@@ -70,7 +70,7 @@ variable "private_subnet_names" {
 
 variable "db_name" {
   type    = string
-  default = "accorddevdb"
+  default = "cloudcartdevdb"
 }
 
 variable "region" {

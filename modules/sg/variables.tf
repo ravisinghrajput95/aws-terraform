@@ -18,5 +18,5 @@ variable "vpc_id" {
 variable "vpc_name" {
   description = "name of the vpc"
   type        = string
-  default     = "accord-vpc"
+  default     = "cloudcart-vpc"
 }
