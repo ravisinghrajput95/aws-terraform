@@ -13,6 +13,8 @@ Two GitHub Actions workflows:
   offline), `checkov` (SARIF → code scanning), and `plan` + `infracost` for the
   spoke envs (dev/qa/stage/production) via AWS OIDC. `shared` is validated but
   not planned in CI (it depends on the other envs' remote state).
+- **`terraform-docs.yml`** — regenerates each module's `README.md`
+  (inputs/outputs tables) and commits the update back to the PR branch.
 - **`packer-bastion.yml`** — validates and builds the bastion AMI (see
   `packer/README.md`).
 
