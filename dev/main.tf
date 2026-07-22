@@ -34,6 +34,5 @@ module "ecr" {
   source           = "../modules/ecr"
   repository_names = var.repository_names
   environment      = var.environment
-  region           = var.region
   account_id       = var.account_id
 }

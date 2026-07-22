@@ -26,11 +26,6 @@ variable "vpc_cidr" {
 
 }
 
-variable "region" {
-  description = "AWS region to deploy our resources"
-  type        = string
-  default     = "us-west-2"
-}
 
 variable "bastion_cidr" {
   description = "CIDR of the shared bastion VPC allowed to reach the cluster API over peering"

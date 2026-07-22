@@ -1,6 +1,5 @@
 locals {
   name                 = var.vpc_name
-  region               = var.aws_region
   environment          = var.environment != "" ? var.environment : "dev" # Set default value to "dev" if not provided
   public_subnet_count  = contains(["stage", "production"], local.environment) ? 3 : 2
   private_subnet_count = contains(["stage", "production"], local.environment) ? 3 : 2
