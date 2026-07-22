@@ -1,5 +1,6 @@
 module "postgres" {
   source     = "terraform-aws-modules/rds/aws"
+  version    = "~> 5.0"
   identifier = "${local.name}-${var.environment}"
 
   engine               = local.engine
@@ -16,7 +17,6 @@ module "postgres" {
   password                         = var.password
   port                             = local.port
   multi_az                         = contains(local.env_higher, var.environment) ? true : false
-  manage_master_user_password      = false
   skip_final_snapshot              = false
   final_snapshot_identifier_prefix = "${local.name}-${var.environment}"
   create_db_subnet_group           = true
@@ -60,12 +60,12 @@ module "postgres" {
 
 resource "aws_db_instance" "read_replica" {
   count                  = contains(local.env_higher, var.environment) ? 1 : 0
-  identifier             = "${module.postgres.db_instance_identifier}-read-replica"
-  replicate_source_db    = module.postgres.db_instance_identifier
+  identifier             = "${module.postgres.db_instance_id}-read-replica"
+  replicate_source_db    = module.postgres.db_instance_id
   instance_class         = contains(local.env_higher, var.environment) ? local.instance_class_replica_prod : local.instance_class_replica_stage
   allocated_storage      = local.allocated_storage
   vpc_security_group_ids = [module.security_group.security_group_id]
-  depends_on             = [module.postgres.db_instance_identifier]
+  depends_on             = [module.postgres.db_instance_id]
 }
 
 module "security_group" {

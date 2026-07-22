@@ -1,5 +1,6 @@
 module "role" {
-  source = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
+  source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
+  version = "~> 5.0"
 
   trusted_role_services = [
     "ec2.amazonaws.com",

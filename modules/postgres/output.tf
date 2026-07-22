@@ -34,3 +34,13 @@ output "read_replica_allocated_storage" {
   value = length(aws_db_instance.read_replica) > 0 ? aws_db_instance.read_replica[0].allocated_storage : null
 }
 
+
+output "db_instance_arn" {
+  description = "The ARN of the RDS instance"
+  value       = module.postgres.db_instance_arn
+}
+
+output "db_instance_availability_zone" {
+  description = "The availability zone of the RDS instance"
+  value       = module.postgres.db_instance_availability_zone
+}
