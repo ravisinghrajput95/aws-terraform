@@ -21,5 +21,12 @@ module "vpc" {
   manage_default_route_table    = false
   manage_default_security_group = false
 
+  # VPC Flow Logs -> CloudWatch
+  enable_flow_log                                 = var.enable_flow_logs
+  create_flow_log_cloudwatch_log_group            = var.enable_flow_logs
+  create_flow_log_cloudwatch_iam_role             = var.enable_flow_logs
+  flow_log_max_aggregation_interval               = 60
+  flow_log_cloudwatch_log_group_retention_in_days = var.flow_log_retention_days
+
   tags = local.tags
 }

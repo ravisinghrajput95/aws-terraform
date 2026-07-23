@@ -27,3 +27,15 @@ variable "ssh_ingress_cidrs" {
   type        = list(string)
   default     = []
 }
+
+variable "cloudtrail_bucket_name" {
+  description = "S3 bucket name for the account CloudTrail logs"
+  type        = string
+  default     = "cloudcart-cloudtrail-logs"
+}
+
+variable "config_bucket_name" {
+  description = "S3 bucket name for AWS Config snapshots/history"
+  type        = string
+  default     = "cloudcart-config-logs"
+}
