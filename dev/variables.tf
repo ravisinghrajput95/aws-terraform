@@ -87,10 +87,6 @@ variable "iam_role_arn" {
   default     = ""
 }
 
-variable "account_id" {
-  description = "The AWS account ID"
-  type        = string
-}
 
 variable "repository_names" {
   description = "The names of the ECR repositories"

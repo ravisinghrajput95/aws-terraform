@@ -51,10 +51,6 @@ variable "region" {
   default     = "us-west-2"
 }
 
-variable "account_id" {
-  description = "The AWS account ID"
-  type        = string
-}
 
 variable "repository_names" {
   description = "The names of the ECR repositories"

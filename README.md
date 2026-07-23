@@ -48,7 +48,6 @@ GitHub Actions workflows:
 | Name | Used by | Purpose |
 |---|---|---|
 | `INFRACOST_API_KEY` | infracost | Infracost cost estimates/comments |
-| `AWS_ACCOUNT_ID` | terraform-ci | value for the `account_id` variable during plan |
 
 Both workflows authenticate with **GitHub OIDC** — no long-lived AWS keys.
 `plan`/`infracost` never run for fork PRs.

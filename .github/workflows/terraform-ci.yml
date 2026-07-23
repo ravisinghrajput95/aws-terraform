@@ -89,7 +89,6 @@ jobs:
       TF_VAR_environment: ${{ matrix.dir }}
       TF_VAR_vpc_cidr: ${{ matrix.vpc_cidr }}
       TF_VAR_repository_names: ${{ matrix.repository_names }}
-      TF_VAR_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
     defaults:
       run:
         working-directory: ${{ matrix.dir }}
