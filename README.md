@@ -63,3 +63,10 @@ Both workflows authenticate with **GitHub OIDC** — no long-lived AWS keys.
 - **`.pre-commit-config.yaml`** — fmt / validate / terraform-docs / tflint on
   commit (`pre-commit install`).
 - **`.github/CODEOWNERS`** — review ownership for `modules/`, `production/`, etc.
+
+## Documentation
+
+- [docs/architecture.md](docs/architecture.md) — topology, dependency graph, apply order
+- [docs/adr/](docs/adr/) — architecture decision records
+- [CONTRIBUTING.md](CONTRIBUTING.md) · [SECURITY.md](SECURITY.md)
+- [examples/](examples/) — runnable module examples
