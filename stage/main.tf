@@ -11,15 +11,14 @@ module "db_secret" {
 }
 
 module "postgres" {
-  source               = "../modules/postgres"
-  environment          = var.environment
-  vpc_id               = module.vpc.vpc_id
-  private_subnet_ids   = module.vpc.private_subnet_ids
-  cidr_blocks          = module.vpc.vpc_cidr_block
-  private_subnet_names = module.vpc.private_subnets
-  username             = module.db_secret.username
-  password             = module.db_secret.password
-  bastion_cidr         = var.bastion_cidr
+  source             = "../modules/postgres"
+  environment        = var.environment
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+  cidr_blocks        = module.vpc.vpc_cidr_block
+  username           = module.db_secret.username
+  password           = module.db_secret.password
+  bastion_cidr       = var.bastion_cidr
 }
 
 module "eks" {

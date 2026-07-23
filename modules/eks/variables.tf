@@ -2,10 +2,6 @@ variable "vpc_id" {
   type = string
 }
 
-variable "vpc_name" {
-  type    = string
-  default = "cloudcart-vpc"
-}
 
 variable "private_subnet_ids" {
   type = list(string)

@@ -11,7 +11,6 @@ module "vpc" {
 
 module "sg" {
   source            = "../modules/sg"
-  vpc_cidr          = var.vpc_cidr
   vpc_id            = module.vpc.vpc_id
   ssh_ingress_cidrs = var.ssh_ingress_cidrs
 }
@@ -23,7 +22,6 @@ module "role" {
 module "bastion" {
   source     = "../modules/bastion"
   vpc_cidr   = var.vpc_cidr
-  vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnet_ids # private subnet: no public IP, SSM-only
   ami_id     = var.bastion_ami_id            # empty => latest Packer-built cloudcart-bastion-* AMI
   # associate_public_ip / create_eip / key_name default off (SSM-only)
