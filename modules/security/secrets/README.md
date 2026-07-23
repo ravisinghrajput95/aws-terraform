@@ -30,6 +30,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment the secret belongs to (dev, qa, stage, production) | `string` | n/a | yes |
+| <a name="input_kms_key_arn"></a> [kms\_key\_arn](#input\_kms\_key\_arn) | Customer-managed KMS key ARN to encrypt the secret (empty = AWS-managed key) | `string` | `""` | no |
 | <a name="input_password_length"></a> [password\_length](#input\_password\_length) | Length of the generated master password | `number` | `24` | no |
 | <a name="input_recovery_window_in_days"></a> [recovery\_window\_in\_days](#input\_recovery\_window\_in\_days) | Days AWS retains the secret after deletion before permanent removal (0 for immediate delete, useful in non-prod) | `number` | `7` | no |
 | <a name="input_secret_name"></a> [secret\_name](#input\_secret\_name) | Optional override for the Secrets Manager secret name. Defaults to cloudcart-<env>-db-password | `string` | `""` | no |
