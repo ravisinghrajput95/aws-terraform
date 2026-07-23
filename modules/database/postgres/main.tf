@@ -26,6 +26,7 @@ module "postgres" {
 
   # Encryption at rest
   storage_encrypted = true
+  kms_key_id        = var.kms_key_arn != "" ? var.kms_key_arn : null
 
   # Backup retention
   backup_retention_period = contains(local.env_prod, var.environment) ? 7 : 0
@@ -39,6 +40,7 @@ module "postgres" {
   monitoring_role_name                  = "${local.name}-${var.environment}-rds-monitoring"
   performance_insights_enabled          = var.enable_performance_insights
   performance_insights_retention_period = var.enable_performance_insights ? var.performance_insights_retention_period : null
+  performance_insights_kms_key_id       = var.enable_performance_insights && var.kms_key_arn != "" ? var.kms_key_arn : null
 
   # Disk type based on environment
   storage_type = contains(local.env_non_prod, var.environment) ? local.storage_type_nonprod : local.storage_type_prod

@@ -27,6 +27,7 @@ module "vpc" {
   create_flow_log_cloudwatch_iam_role             = var.enable_flow_logs
   flow_log_max_aggregation_interval               = 60
   flow_log_cloudwatch_log_group_retention_in_days = var.flow_log_retention_days
+  flow_log_cloudwatch_log_group_kms_key_id        = var.flow_log_kms_key_arn != "" ? var.flow_log_kms_key_arn : null
 
   tags = local.tags
 }

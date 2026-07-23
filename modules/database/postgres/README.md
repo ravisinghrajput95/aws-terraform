@@ -36,6 +36,7 @@
 | <a name="input_enable_enhanced_monitoring"></a> [enable\_enhanced\_monitoring](#input\_enable\_enhanced\_monitoring) | Enable RDS Enhanced Monitoring (creates a monitoring IAM role) | `bool` | `true` | no |
 | <a name="input_enable_performance_insights"></a> [enable\_performance\_insights](#input\_enable\_performance\_insights) | Enable RDS Performance Insights | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment for which VPC is being created (dev, qa, staging, production) | `string` | n/a | yes |
+| <a name="input_kms_key_arn"></a> [kms\_key\_arn](#input\_kms\_key\_arn) | Customer-managed KMS key ARN for RDS storage + Performance Insights encryption (empty = AWS-managed key) | `string` | `""` | no |
 | <a name="input_monitoring_interval"></a> [monitoring\_interval](#input\_monitoring\_interval) | Enhanced Monitoring interval in seconds (1,5,10,15,30,60) | `number` | `60` | no |
 | <a name="input_password"></a> [password](#input\_password) | Master user password for the RDS DB instance | `string` | n/a | yes |
 | <a name="input_performance_insights_retention_period"></a> [performance\_insights\_retention\_period](#input\_performance\_insights\_retention\_period) | Performance Insights retention in days (7 = free tier, or 731) | `number` | `7` | no |

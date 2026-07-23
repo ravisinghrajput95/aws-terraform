@@ -44,6 +44,12 @@ variable "bastion_cidr" {
   default     = ""
 }
 
+variable "kms_key_arn" {
+  description = "Customer-managed KMS key ARN for RDS storage + Performance Insights encryption (empty = AWS-managed key)"
+  type        = string
+  default     = ""
+}
+
 variable "enable_enhanced_monitoring" {
   description = "Enable RDS Enhanced Monitoring (creates a monitoring IAM role)"
   type        = bool

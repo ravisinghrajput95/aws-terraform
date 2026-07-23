@@ -27,11 +27,18 @@ provider "aws" {
   }
 }
 
+module "kms_state" {
+  source      = "../modules/security/kms"
+  alias       = "cloudcart-terraform-state"
+  description = "CloudCart Terraform state bucket encryption"
+}
+
 module "state_bucket" {
   source   = "../modules/storage/tf-backend"
   for_each = toset(var.state_buckets)
 
   bucket_name = each.value
+  kms_key_arn = module.kms_state.key_arn
   tags = {
     Application = "cloudcart"
     Purpose     = "terraform-state"

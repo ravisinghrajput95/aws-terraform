@@ -1,12 +1,20 @@
 ########################################
 # Shared/hub VPC + bastion
 ########################################
+module "kms" {
+  source             = "../../modules/security/kms"
+  alias              = "cloudcart-shared-logs"
+  description        = "CloudCart shared log encryption (flow logs, SSM session logs)"
+  service_principals = ["logs.${var.aws_region}.amazonaws.com"]
+}
+
 module "vpc" {
-  source             = "../../modules/networking/vpc"
-  environment        = "shared"
-  vpc_cidr           = var.vpc_cidr
-  subnet_newbits     = 2              # /24 -> /26 subnets
-  enable_nat_gateway = var.enable_nat # default false: bastion reaches AWS via VPC endpoints
+  source               = "../../modules/networking/vpc"
+  environment          = "shared"
+  vpc_cidr             = var.vpc_cidr
+  subnet_newbits       = 2              # /24 -> /26 subnets
+  enable_nat_gateway   = var.enable_nat # default false: bastion reaches AWS via VPC endpoints
+  flow_log_kms_key_arn = module.kms.key_arn
 }
 
 module "sg" {
