@@ -33,6 +33,7 @@
 | <a name="input_flow_log_retention_days"></a> [flow\_log\_retention\_days](#input\_flow\_log\_retention\_days) | Retention (days) for the VPC Flow Logs CloudWatch group | `number` | `90` | no |
 | <a name="input_private_subnet_prefix"></a> [private\_subnet\_prefix](#input\_private\_subnet\_prefix) | Prefix to be used for Private subnet name | `string` | `"Private"` | no |
 | <a name="input_public_subnet_prefix"></a> [public\_subnet\_prefix](#input\_public\_subnet\_prefix) | Prefix to be used for Public subnet name | `string` | `"Public"` | no |
+| <a name="input_single_nat_gateway"></a> [single\_nat\_gateway](#input\_single\_nat\_gateway) | Use one NAT gateway for the whole VPC (cheaper) instead of one per AZ (highly available). Set false for production/stage. | `bool` | `true` | no |
 | <a name="input_subnet_newbits"></a> [subnet\_newbits](#input\_subnet\_newbits) | Additional bits to extend the VPC prefix by when carving subnets (8 => /24 subnets from a /16; use a smaller value for a shorter VPC CIDR) | `number` | `8` | no |
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | CIDR block for the VPC | `string` | n/a | yes |
 | <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | Name of AWS VPC | `string` | `"cloudcart-vpc"` | no |
