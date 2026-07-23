@@ -16,3 +16,11 @@ module "aws_config" {
   name        = "cloudcart-config"
   bucket_name = var.config_bucket_name
 }
+
+module "security_hub" {
+  source = "../modules/securityhub"
+}
+
+module "access_analyzer" {
+  source = "../modules/access-analyzer"
+}

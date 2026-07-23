@@ -44,6 +44,30 @@ variable "bastion_cidr" {
   default     = ""
 }
 
+variable "enable_enhanced_monitoring" {
+  description = "Enable RDS Enhanced Monitoring (creates a monitoring IAM role)"
+  type        = bool
+  default     = true
+}
+
+variable "monitoring_interval" {
+  description = "Enhanced Monitoring interval in seconds (1,5,10,15,30,60)"
+  type        = number
+  default     = 60
+}
+
+variable "enable_performance_insights" {
+  description = "Enable RDS Performance Insights"
+  type        = bool
+  default     = true
+}
+
+variable "performance_insights_retention_period" {
+  description = "Performance Insights retention in days (7 = free tier, or 731)"
+  type        = number
+  default     = 7
+}
+
 
 variable "db_name" {
   type    = string

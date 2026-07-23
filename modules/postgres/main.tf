@@ -33,6 +33,13 @@ module "postgres" {
   # Disable automatic maintenance
   auto_minor_version_upgrade = false
 
+  # Enhanced monitoring + Performance Insights
+  create_monitoring_role                = var.enable_enhanced_monitoring
+  monitoring_interval                   = var.enable_enhanced_monitoring ? var.monitoring_interval : 0
+  monitoring_role_name                  = "${local.name}-${var.environment}-rds-monitoring"
+  performance_insights_enabled          = var.enable_performance_insights
+  performance_insights_retention_period = var.enable_performance_insights ? var.performance_insights_retention_period : null
+
   # Disk type based on environment
   storage_type = contains(local.env_non_prod, var.environment) ? local.storage_type_nonprod : local.storage_type_prod
   iops         = contains(local.env_prod, var.environment) ? 5000 : null
