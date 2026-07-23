@@ -27,8 +27,10 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_enable_flow_logs"></a> [enable\_flow\_logs](#input\_enable\_flow\_logs) | Enable VPC Flow Logs to a CloudWatch log group | `bool` | `true` | no |
 | <a name="input_enable_nat_gateway"></a> [enable\_nat\_gateway](#input\_enable\_nat\_gateway) | Provision a NAT gateway for private-subnet internet egress. Spokes need it; the shared bastion VPC can set this false and rely on VPC endpoints. | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment for which VPC is being created (dev, qa, staging, production) | `string` | n/a | yes |
+| <a name="input_flow_log_retention_days"></a> [flow\_log\_retention\_days](#input\_flow\_log\_retention\_days) | Retention (days) for the VPC Flow Logs CloudWatch group | `number` | `90` | no |
 | <a name="input_private_subnet_prefix"></a> [private\_subnet\_prefix](#input\_private\_subnet\_prefix) | Prefix to be used for Private subnet name | `string` | `"Private"` | no |
 | <a name="input_public_subnet_prefix"></a> [public\_subnet\_prefix](#input\_public\_subnet\_prefix) | Prefix to be used for Public subnet name | `string` | `"Public"` | no |
 | <a name="input_subnet_newbits"></a> [subnet\_newbits](#input\_subnet\_newbits) | Additional bits to extend the VPC prefix by when carving subnets (8 => /24 subnets from a /16; use a smaller value for a shorter VPC CIDR) | `number` | `8` | no |
