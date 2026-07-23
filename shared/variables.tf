@@ -10,6 +10,12 @@ variable "vpc_cidr" {
   default     = "172.31.0.0/24"
 }
 
+variable "bastion_eks_access_policy_arn" {
+  description = "EKS access-entry policy granted to the bastion on each cluster. Defaults to cluster-admin (ops jump host); scope down (e.g. AmazonEKSEditPolicy/AmazonEKSViewPolicy) for least privilege."
+  type        = string
+  default     = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+}
+
 variable "enable_nat" {
   description = "Provision a NAT gateway in the shared VPC. Default false — the baked bastion AMI needs no internet at boot, and AWS APIs are reached via VPC endpoints."
   type        = bool
