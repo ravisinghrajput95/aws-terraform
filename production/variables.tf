@@ -62,3 +62,9 @@ variable "bastion_cidr" {
   type        = string
   default     = "172.31.0.0/24"
 }
+
+variable "alarm_email" {
+  description = "Email address subscribed to CloudWatch alerts (empty = none)"
+  type        = string
+  default     = ""
+}

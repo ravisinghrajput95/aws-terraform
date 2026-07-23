@@ -34,3 +34,10 @@ module "ecr" {
   repository_names = var.repository_names
   environment      = var.environment
 }
+
+module "monitoring" {
+  source         = "../modules/monitoring"
+  environment    = var.environment
+  db_instance_id = module.postgres.db_instance_id
+  alarm_email    = var.alarm_email
+}
