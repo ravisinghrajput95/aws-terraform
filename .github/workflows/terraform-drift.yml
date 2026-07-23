@@ -1,0 +1,68 @@
+name: Terraform Drift
+
+# Nightly drift detection: plan each spoke and fail if state has drifted.
+on:
+  schedule:
+    - cron: "17 6 * * *" # 06:17 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  drift:
+    name: drift (${{ matrix.dir }})
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # AWS OIDC
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dir: dev
+            vpc_cidr: "172.32.0.0/16"
+            repository_names: '["dev-repo1"]'
+          - dir: qa
+            vpc_cidr: "172.33.0.0/16"
+            repository_names: '["qa-repo1"]'
+          - dir: stage
+            vpc_cidr: "172.34.0.0/16"
+            repository_names: '["stage-repo1"]'
+          - dir: production
+            vpc_cidr: "172.35.0.0/16"
+            repository_names: '["prod-repo1"]'
+    env:
+      TF_VAR_environment: ${{ matrix.dir }}
+      TF_VAR_vpc_cidr: ${{ matrix.vpc_cidr }}
+      TF_VAR_repository_names: ${{ matrix.repository_names }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.dir }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.5"
+          terraform_wrapper: false
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_TF_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION || 'us-west-2' }}
+
+      - name: terraform init
+        run: terraform init -input=false
+
+      - name: terraform plan (detect drift)
+        run: |
+          set +e
+          terraform plan -input=false -no-color -lock=false -detailed-exitcode
+          code=$?
+          if [ "$code" -eq 2 ]; then
+            echo "::warning title=Drift detected::${{ matrix.dir }} has drifted from its Terraform state."
+            exit 1
+          fi
+          exit $code

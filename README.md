@@ -33,6 +33,9 @@ GitHub Actions workflows:
   (inputs/outputs tables) and commits the update back to the PR branch.
 - **`packer-bastion.yml`** — validates and builds the bastion AMI (see
   `packer/README.md`).
+- **`terraform-apply.yml`** — manual, environment-gated `apply` per config
+  (GitHub Environments provide the approval gate).
+- **`terraform-drift.yml`** — nightly `plan` per spoke; fails on drift.
 
 ### Required repo configuration (Settings → Secrets and variables → Actions)
 
