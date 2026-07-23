@@ -5,6 +5,15 @@ Terraform configuration that provisions CloudCart's AWS infrastructure across
 RDS Postgres, ECR, bastion, security groups, IAM). All provisioned resources
 are named with the `cloudcart` prefix.
 
+![CloudCart AWS platform architecture](docs/images/architecture.png)
+
+A hub-and-spoke topology: a shared hub VPC runs a private SSM-only bastion, the
+VPC endpoints, and the account-level security services (CloudTrail, Config,
+GuardDuty, Security Hub, Access Analyzer), peered into each environment. Primary
+data stores are encrypted with per-environment customer-managed KMS keys. See
+[docs/architecture.md](docs/architecture.md) for the detailed diagrams and apply
+order.
+
 ## State backend
 
 Each environment stores state in its own S3 bucket

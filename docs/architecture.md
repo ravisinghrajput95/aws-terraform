@@ -1,5 +1,7 @@
 # Architecture
 
+![CloudCart AWS platform architecture](images/architecture.png)
+
 CloudCart runs a **hub-and-spoke** AWS platform. Each environment is an isolated
 VPC (a "spoke"); a dedicated **shared** VPC (the "hub") runs a single private,
 SSM-only bastion and the account-level security services, peered into every
