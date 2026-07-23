@@ -28,35 +28,10 @@ variable "vpc_id" {
   type = string
 }
 
-variable "vpc_name" {
-  description = "Name of AWS VPC"
-  type        = string
-  default     = "cloudcart-vpc"
-}
 
-variable "private_subnet" {
-  description = "Prefix to be used for Private subnet name"
-  type        = string
-  default     = "Private"
-}
 
-variable "public_subnet" {
-  description = "Prefix to be used for Private subnet name"
-  type        = string
-  default     = "Public"
-}
 
-variable "private_subnet_prefix" {
-  description = "Prefix to be used for Private subnet name"
-  type        = string
-  default     = "Private"
-}
 
-variable "public_subnet_prefix" {
-  description = "Prefix to be used for Public subnet name"
-  type        = string
-  default     = "Public"
-}
 
 variable "cidr_blocks" {
   description = "CIDR blocks of VPC subnet"
@@ -69,10 +44,6 @@ variable "bastion_cidr" {
   default     = ""
 }
 
-variable "private_subnet_names" {
-  description = "Private subnet name "
-  type        = list(string)
-}
 
 variable "db_name" {
   type    = string

@@ -16,6 +16,15 @@ terraform {
 
 provider "aws" {
   region = var.aws_region
+
+  default_tags {
+    tags = {
+      Environment = "bootstrap"
+      Application = "cloudcart"
+      ManagedBy   = "terraform"
+      Repository  = "aws-terraform"
+    }
+  }
 }
 
 module "state_bucket" {

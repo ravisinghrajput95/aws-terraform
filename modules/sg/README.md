@@ -24,9 +24,7 @@ No resources.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_ssh_ingress_cidrs"></a> [ssh\_ingress\_cidrs](#input\_ssh\_ingress\_cidrs) | CIDRs allowed to SSH (port 22) to the bastion. Empty list disables SSH ingress entirely (rely on SSM Session Manager). | `list(string)` | `[]` | no |
-| <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | CIDR block for the VPC | `string` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | vpc id for the bastion | `string` | n/a | yes |
-| <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | name of the vpc | `string` | `"cloudcart-vpc"` | no |
 
 ## Outputs
 

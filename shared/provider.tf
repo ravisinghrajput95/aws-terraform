@@ -19,4 +19,13 @@ terraform {
 
 provider "aws" {
   region = var.aws_region
+
+  default_tags {
+    tags = {
+      Environment = "shared"
+      Application = "cloudcart"
+      ManagedBy   = "terraform"
+      Repository  = "aws-terraform"
+    }
+  }
 }

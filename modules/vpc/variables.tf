@@ -34,17 +34,7 @@ variable "enable_nat_gateway" {
 }
 
 
-variable "private_subnet" {
-  description = "Prefix to be used for Private subnet name"
-  type        = string
-  default     = "Private"
-}
 
-variable "public_subnet" {
-  description = "Prefix to be used for Private subnet name"
-  type        = string
-  default     = "Public"
-}
 
 variable "private_subnet_prefix" {
   description = "Prefix to be used for Private subnet name"

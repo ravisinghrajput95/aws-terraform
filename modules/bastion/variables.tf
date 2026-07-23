@@ -5,16 +5,7 @@ variable "vpc_cidr" {
 
 }
 
-variable "vpc_id" {
-  description = "vpc id for the bastion"
-  type        = string
-}
 
-variable "vpc_name" {
-  description = "name of the vpc"
-  type        = string
-  default     = "cloudcart"
-}
 
 variable "subnet_ids" {
   description = "Subnets to place the bastion in (first is used). Use private subnets for an SSM-only bastion."
