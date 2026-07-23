@@ -81,4 +81,3 @@ Both workflows authenticate with **GitHub OIDC** — no long-lived AWS keys.
 - [docs/architecture.md](docs/architecture.md) — topology, dependency graph, apply order
 - [docs/adr/](docs/adr/) — architecture decision records
 - [CONTRIBUTING.md](CONTRIBUTING.md) · [SECURITY.md](SECURITY.md)
-- [examples/](examples/) — runnable module examples
