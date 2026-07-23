@@ -2,7 +2,8 @@
 * @ravisinghrajput95
 
 # Shared modules and production get extra scrutiny — add team handles here.
-/modules/     @ravisinghrajput95
-/production/  @ravisinghrajput95
-/bootstrap/   @ravisinghrajput95
-/.github/     @ravisinghrajput95
+/modules/                 @ravisinghrajput95
+/environments/            @ravisinghrajput95
+/environments/production/ @ravisinghrajput95
+/bootstrap/               @ravisinghrajput95
+/.github/                 @ravisinghrajput95

@@ -38,7 +38,7 @@ jobs:
 
       - name: Generate per-module docs
         run: |
-          for d in modules/*/; do
+          for d in modules/*/*/; do
             terraform-docs markdown table --output-file README.md --output-mode inject "$d"
           done
 
@@ -52,6 +52,6 @@ jobs:
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add modules/*/README.md
+          git add modules/*/*/README.md
           git commit -m "docs: terraform-docs auto-update"
           git push origin "HEAD:${{ github.head_ref }}"

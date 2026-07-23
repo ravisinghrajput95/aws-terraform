@@ -2,7 +2,7 @@
 # Shared/hub VPC + bastion
 ########################################
 module "vpc" {
-  source             = "../modules/vpc"
+  source             = "../../modules/networking/vpc"
   environment        = "shared"
   vpc_cidr           = var.vpc_cidr
   subnet_newbits     = 2              # /24 -> /26 subnets
@@ -10,17 +10,17 @@ module "vpc" {
 }
 
 module "sg" {
-  source            = "../modules/sg"
+  source            = "../../modules/networking/sg"
   vpc_id            = module.vpc.vpc_id
   ssh_ingress_cidrs = var.ssh_ingress_cidrs
 }
 
 module "role" {
-  source = "../modules/role"
+  source = "../../modules/security/role"
 }
 
 module "bastion" {
-  source     = "../modules/bastion"
+  source     = "../../modules/compute/bastion"
   vpc_cidr   = var.vpc_cidr
   subnet_ids = module.vpc.private_subnet_ids # private subnet: no public IP, SSM-only
   ami_id     = var.bastion_ami_id            # empty => latest Packer-built cloudcart-bastion-* AMI
@@ -33,7 +33,7 @@ module "bastion" {
 # Peering: hub <-> each environment
 ########################################
 module "peering" {
-  source   = "../modules/peering"
+  source   = "../../modules/networking/peering"
   for_each = local.spokes
 
   name                      = "cloudcart-shared-to-${each.key}"

@@ -5,6 +5,21 @@ VPC (a "spoke"); a dedicated **shared** VPC (the "hub") runs a single private,
 SSM-only bastion and the account-level security services, peered into every
 spoke.
 
+## Repository layout
+
+```
+bootstrap/         # state buckets (local backend, run first)
+environments/      # root configs: dev, qa, stage, production, shared
+modules/
+  networking/      # vpc, sg, peering
+  compute/         # eks, bastion
+  database/        # postgres
+  security/        # kms, secrets, role, guardduty, cloudtrail, config, securityhub, access-analyzer
+  storage/         # ecr, tf-backend
+  observability/   # monitoring
+examples/  scripts/  docs/  packer/  .github/
+```
+
 ## Environments
 
 | Config | VPC CIDR | Role |
@@ -28,7 +43,7 @@ flowchart LR
   SH -->|peering + EKS access entries| DEV & QA & STG & PROD
 ```
 
-**Apply order:** `bootstrap` → `dev`/`qa`/`stage`/`production` → `shared`.
+**Apply order:** `bootstrap` → the four spokes in `environments/` → `environments/shared`.
 
 ## Network topology
 

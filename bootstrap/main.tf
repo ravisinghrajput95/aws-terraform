@@ -28,7 +28,7 @@ provider "aws" {
 }
 
 module "state_bucket" {
-  source   = "../modules/tf-backend"
+  source   = "../modules/storage/tf-backend"
   for_each = toset(var.state_buckets)
 
   bucket_name = each.value

@@ -1,5 +1,5 @@
-ENVS := dev qa stage production shared
-DIR  ?= dev
+ENVS := environments/dev environments/qa environments/stage environments/production environments/shared
+DIR  ?= environments/dev
 TF   := terraform
 
 .PHONY: help fmt fmt-check validate validate-all plan apply docs lint security bootstrap clean
@@ -27,7 +27,7 @@ apply: ## Apply one config (DIR=dev)
 	cd $(DIR) && $(TF) apply
 
 docs: ## Regenerate module READMEs (terraform-docs)
-	@for m in modules/*/; do \
+	@for m in modules/*/*/; do \
 		terraform-docs markdown table --output-file README.md --output-mode inject "$$m"; \
 	done
 

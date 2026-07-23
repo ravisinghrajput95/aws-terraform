@@ -43,7 +43,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dir: [bootstrap, dev, qa, stage, production, shared]
+        dir:
+          [
+            bootstrap,
+            environments/dev,
+            environments/qa,
+            environments/stage,
+            environments/production,
+            environments/shared,
+          ]
     defaults:
       run:
         working-directory: ${{ matrix.dir }}
@@ -59,7 +67,7 @@ jobs:
         run: terraform validate -no-color
 
   plan:
-    name: plan (${{ matrix.dir }})
+    name: plan (${{ matrix.env }})
     # Needs AWS + secrets — never run for fork PRs.
     if: >-
       github.event_name == 'push' ||
@@ -73,25 +81,25 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dir: dev
+          - env: dev
             vpc_cidr: "172.32.0.0/16"
             repository_names: '["dev-repo1","dev-repo2","dev-repo3","dev-repo4"]'
-          - dir: qa
+          - env: qa
             vpc_cidr: "172.33.0.0/16"
             repository_names: '["qa-repo1","qa-repo2","qa-repo3","qa-repo4"]'
-          - dir: stage
+          - env: stage
             vpc_cidr: "172.34.0.0/16"
             repository_names: '["stage-repo1","stage-repo2","stage-repo3","stage-repo4"]'
-          - dir: production
+          - env: production
             vpc_cidr: "172.35.0.0/16"
             repository_names: '["prod-repo1","prod-repo2","prod-repo3","prod-repo4"]'
     env:
-      TF_VAR_environment: ${{ matrix.dir }}
+      TF_VAR_environment: ${{ matrix.env }}
       TF_VAR_vpc_cidr: ${{ matrix.vpc_cidr }}
       TF_VAR_repository_names: ${{ matrix.repository_names }}
     defaults:
       run:
-        working-directory: ${{ matrix.dir }}
+        working-directory: environments/${{ matrix.env }}
     steps:
       - uses: actions/checkout@v4
 
@@ -115,7 +123,7 @@ jobs:
       - name: Plan to job summary
         run: |
           {
-            echo "### Terraform plan — ${{ matrix.dir }}"
+            echo "### Terraform plan — ${{ matrix.env }}"
             echo '```'
             terraform show -no-color tfplan
             echo '```'
