@@ -61,7 +61,7 @@ resource "aws_eks_access_policy_association" "bastion" {
   for_each      = local.spokes
   cluster_name  = each.value.cluster_name
   principal_arn = module.role.iam_role_arn
-  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+  policy_arn    = var.bastion_eks_access_policy_arn
 
   access_scope {
     type = "cluster"
