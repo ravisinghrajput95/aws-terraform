@@ -42,3 +42,14 @@ terraform.rc
 # Optional: ignore plan files saved before destroying Terraform configuration
 # Uncomment the line below if you want to ignore planout files.
 # planout
+# Plan output & tool caches
+*.tfplan
+tfplan
+.infracost/
+
+# OS / editor noise
+.DS_Store
+*.swp
+
+# NOTE: .terraform.lock.hcl is intentionally NOT ignored — commit it per config
+# for reproducible provider versions.

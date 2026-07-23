@@ -1,0 +1,8 @@
+# Default owner for everything.
+* @ravisinghrajput95
+
+# Shared modules and production get extra scrutiny — add team handles here.
+/modules/     @ravisinghrajput95
+/production/  @ravisinghrajput95
+/bootstrap/   @ravisinghrajput95
+/.github/     @ravisinghrajput95

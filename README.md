@@ -24,6 +24,8 @@ GitHub Actions workflows:
   envs' remote state).
 - **`checkov.yml`** — static security/compliance analysis, SARIF uploaded to
   GitHub code scanning (`soft_fail`, offline).
+- **`tflint.yml`** — provider-aware linting (`.tflint.hcl`, recursive, offline).
+- **`trivy.yml`** — Trivy config/misconfig scan, SARIF → code scanning (offline).
 - **`infracost.yml`** — cost estimate per env (defined in
   `.github/infracost.yml`), parsed from HCL (no AWS needed), posted as a single
   PR comment.
@@ -51,3 +53,13 @@ GitHub Actions workflows:
 
 Both workflows authenticate with **GitHub OIDC** — no long-lived AWS keys.
 `plan`/`infracost` never run for fork PRs.
+
+### Local developer tooling
+
+- **`Makefile`** — `make help` lists targets (`fmt`, `validate-all`, `plan`,
+  `docs`, `lint`, `security`, `bootstrap`, …).
+- **`scripts/`** — `validate-all.sh` (offline, every config) and `plan-all.sh`
+  (spokes, needs AWS).
+- **`.pre-commit-config.yaml`** — fmt / validate / terraform-docs / tflint on
+  commit (`pre-commit install`).
+- **`.github/CODEOWNERS`** — review ownership for `modules/`, `production/`, etc.

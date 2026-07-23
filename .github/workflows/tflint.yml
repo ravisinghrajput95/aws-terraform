@@ -1,0 +1,44 @@
+name: TFLint
+
+on:
+  pull_request:
+    paths:
+      - "**.tf"
+      - ".tflint.hcl"
+      - ".github/workflows/tflint.yml"
+  push:
+    branches: [main]
+    paths:
+      - "**.tf"
+      - ".tflint.hcl"
+      - ".github/workflows/tflint.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tflint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tflint:
+    name: tflint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: terraform-linters/setup-tflint@v4
+        with:
+          tflint_version: latest
+
+      - name: Cache tflint plugins
+        uses: actions/cache@v4
+        with:
+          path: ~/.tflint.d/plugins
+          key: tflint-${{ hashFiles('.tflint.hcl') }}
+
+      - name: tflint --init
+        run: tflint --init
+
+      - name: tflint
+        run: tflint --recursive --format compact
