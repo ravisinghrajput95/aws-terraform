@@ -8,7 +8,6 @@ projects:
     terraform_vars:
       environment: dev
       vpc_cidr: "172.32.0.0/16"
-      account_id: "123456789012"
       repository_names: ["dev-repo1"]
 
   - path: ../qa
@@ -30,7 +29,6 @@ projects:
     terraform_vars:
       environment: production
       vpc_cidr: "172.35.0.0/16"
-      account_id: "123456789012"
       repository_names: ["prod-repo1"]
 
   - path: ../shared
