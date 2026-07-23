@@ -7,7 +7,7 @@ module "vpc" {
   azs  = local.azs
 
   enable_nat_gateway   = var.enable_nat_gateway
-  single_nat_gateway   = true
+  single_nat_gateway   = var.single_nat_gateway
   enable_dns_hostnames = true
   enable_dns_support   = true
 

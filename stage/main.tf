@@ -1,8 +1,8 @@
 module "vpc" {
-  source      = "../modules/vpc"
-  vpc_cidr    = var.vpc_cidr
-  environment = var.environment
-
+  source             = "../modules/vpc"
+  vpc_cidr           = var.vpc_cidr
+  environment        = var.environment
+  single_nat_gateway = false # per-AZ NAT for HA egress
 }
 
 module "db_secret" {

@@ -33,6 +33,12 @@ variable "enable_nat_gateway" {
   default     = true
 }
 
+variable "single_nat_gateway" {
+  description = "Use one NAT gateway for the whole VPC (cheaper) instead of one per AZ (highly available). Set false for production/stage."
+  type        = bool
+  default     = true
+}
+
 variable "enable_flow_logs" {
   description = "Enable VPC Flow Logs to a CloudWatch log group"
   type        = bool

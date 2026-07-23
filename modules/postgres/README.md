@@ -33,8 +33,12 @@
 | <a name="input_bastion_cidr"></a> [bastion\_cidr](#input\_bastion\_cidr) | CIDR of the shared bastion VPC allowed to reach the DB over peering (empty to disable) | `string` | `""` | no |
 | <a name="input_cidr_blocks"></a> [cidr\_blocks](#input\_cidr\_blocks) | CIDR blocks of VPC subnet | `string` | n/a | yes |
 | <a name="input_db_name"></a> [db\_name](#input\_db\_name) | n/a | `string` | `"cloudcartdevdb"` | no |
+| <a name="input_enable_enhanced_monitoring"></a> [enable\_enhanced\_monitoring](#input\_enable\_enhanced\_monitoring) | Enable RDS Enhanced Monitoring (creates a monitoring IAM role) | `bool` | `true` | no |
+| <a name="input_enable_performance_insights"></a> [enable\_performance\_insights](#input\_enable\_performance\_insights) | Enable RDS Performance Insights | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment for which VPC is being created (dev, qa, staging, production) | `string` | n/a | yes |
+| <a name="input_monitoring_interval"></a> [monitoring\_interval](#input\_monitoring\_interval) | Enhanced Monitoring interval in seconds (1,5,10,15,30,60) | `number` | `60` | no |
 | <a name="input_password"></a> [password](#input\_password) | Master user password for the RDS DB instance | `string` | n/a | yes |
+| <a name="input_performance_insights_retention_period"></a> [performance\_insights\_retention\_period](#input\_performance\_insights\_retention\_period) | Performance Insights retention in days (7 = free tier, or 731) | `number` | `7` | no |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | Private subnet ids to provision RDS Postgres instance | `list(string)` | n/a | yes |
 | <a name="input_username"></a> [username](#input\_username) | n/a | `string` | `"cloudcart_user"` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `string` | n/a | yes |
