@@ -1,12 +1,21 @@
+module "kms" {
+  source             = "../../modules/security/kms"
+  alias              = "cloudcart-${var.environment}-data"
+  description        = "CloudCart ${var.environment} data encryption (RDS, Secrets, flow logs)"
+  service_principals = ["logs.${var.aws_region}.amazonaws.com"]
+}
+
 module "vpc" {
-  source      = "../../modules/networking/vpc"
-  environment = var.environment
-  vpc_cidr    = var.vpc_cidr
+  source               = "../../modules/networking/vpc"
+  flow_log_kms_key_arn = module.kms.key_arn
+  environment          = var.environment
+  vpc_cidr             = var.vpc_cidr
 }
 
 module "db_secret" {
   source      = "../../modules/security/secrets"
   environment = var.environment
+  kms_key_arn = module.kms.key_arn
 }
 
 module "postgres" {
@@ -18,6 +27,7 @@ module "postgres" {
   username           = module.db_secret.username
   password           = module.db_secret.password
   bastion_cidr       = var.bastion_cidr
+  kms_key_arn        = module.kms.key_arn
 }
 
 module "eks" {

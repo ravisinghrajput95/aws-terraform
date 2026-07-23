@@ -8,6 +8,7 @@ resource "random_password" "db" {
 
 # Store the credentials in AWS Secrets Manager.
 resource "aws_secretsmanager_secret" "db" {
+  kms_key_id              = var.kms_key_arn != "" ? var.kms_key_arn : null
   name                    = local.secret_name
   description             = "Master DB credentials for CloudCart ${var.environment}"
   recovery_window_in_days = var.recovery_window_in_days

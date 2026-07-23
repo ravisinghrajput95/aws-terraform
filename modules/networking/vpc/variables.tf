@@ -51,6 +51,12 @@ variable "flow_log_retention_days" {
   default     = 90
 }
 
+variable "flow_log_kms_key_arn" {
+  description = "Customer-managed KMS key ARN to encrypt the flow-log CloudWatch group (empty = default). Must allow the CloudWatch Logs service principal."
+  type        = string
+  default     = ""
+}
+
 
 
 

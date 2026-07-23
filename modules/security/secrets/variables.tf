@@ -26,6 +26,12 @@ variable "password_length" {
   default     = 24
 }
 
+variable "kms_key_arn" {
+  description = "Customer-managed KMS key ARN to encrypt the secret (empty = AWS-managed key)"
+  type        = string
+  default     = ""
+}
+
 variable "recovery_window_in_days" {
   description = "Days AWS retains the secret after deletion before permanent removal (0 for immediate delete, useful in non-prod)"
   type        = number
