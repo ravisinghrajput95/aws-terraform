@@ -36,7 +36,6 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_account_id"></a> [account\_id](#input\_account\_id) | The AWS account ID | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment to provision the resources | `any` | n/a | yes |
 | <a name="input_repository_names"></a> [repository\_names](#input\_repository\_names) | The names of the ECR repositories | `list(string)` | n/a | yes |
 
