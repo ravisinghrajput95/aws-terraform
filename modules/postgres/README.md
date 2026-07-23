@@ -35,15 +35,9 @@
 | <a name="input_db_name"></a> [db\_name](#input\_db\_name) | n/a | `string` | `"cloudcartdevdb"` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment for which VPC is being created (dev, qa, staging, production) | `string` | n/a | yes |
 | <a name="input_password"></a> [password](#input\_password) | Master user password for the RDS DB instance | `string` | n/a | yes |
-| <a name="input_private_subnet"></a> [private\_subnet](#input\_private\_subnet) | Prefix to be used for Private subnet name | `string` | `"Private"` | no |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | Private subnet ids to provision RDS Postgres instance | `list(string)` | n/a | yes |
-| <a name="input_private_subnet_names"></a> [private\_subnet\_names](#input\_private\_subnet\_names) | Private subnet name | `list(string)` | n/a | yes |
-| <a name="input_private_subnet_prefix"></a> [private\_subnet\_prefix](#input\_private\_subnet\_prefix) | Prefix to be used for Private subnet name | `string` | `"Private"` | no |
-| <a name="input_public_subnet"></a> [public\_subnet](#input\_public\_subnet) | Prefix to be used for Private subnet name | `string` | `"Public"` | no |
-| <a name="input_public_subnet_prefix"></a> [public\_subnet\_prefix](#input\_public\_subnet\_prefix) | Prefix to be used for Public subnet name | `string` | `"Public"` | no |
 | <a name="input_username"></a> [username](#input\_username) | n/a | `string` | `"cloudcart_user"` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `string` | n/a | yes |
-| <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | Name of AWS VPC | `string` | `"cloudcart-vpc"` | no |
 
 ## Outputs
 
