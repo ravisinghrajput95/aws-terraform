@@ -7,6 +7,9 @@ module "ecr" {
   repository_image_scan_on_push   = local.repository_image_scan_on_push
   repository_image_tag_mutability = local.repository_image_tag_mutability
 
+  repository_encryption_type = var.kms_key_arn != "" ? "KMS" : "AES256"
+  repository_kms_key         = var.kms_key_arn != "" ? var.kms_key_arn : null
+
   repository_lifecycle_policy = jsonencode({
     rules = [
       {

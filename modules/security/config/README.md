@@ -40,6 +40,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | S3 bucket name for Config snapshots/history | `string` | n/a | yes |
 | <a name="input_include_global_resource_types"></a> [include\_global\_resource\_types](#input\_include\_global\_resource\_types) | Record global resources (IAM, etc.). Enable in exactly one region. | `bool` | `true` | no |
+| <a name="input_kms_key_arn"></a> [kms\_key\_arn](#input\_kms\_key\_arn) | Customer-managed KMS key ARN for the Config delivery bucket (empty = SSE-S3/AES256) | `string` | `""` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for the Config recorder / delivery channel | `string` | `"cloudcart-config"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags | `map(string)` | `{}` | no |
 

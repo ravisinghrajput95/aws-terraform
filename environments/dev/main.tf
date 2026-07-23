@@ -43,6 +43,7 @@ module "ecr" {
   source           = "../../modules/storage/ecr"
   repository_names = var.repository_names
   environment      = var.environment
+  kms_key_arn      = module.kms.key_arn
 }
 
 module "monitoring" {

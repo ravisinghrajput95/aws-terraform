@@ -37,6 +37,7 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment to provision the resources | `any` | n/a | yes |
+| <a name="input_kms_key_arn"></a> [kms\_key\_arn](#input\_kms\_key\_arn) | Customer-managed KMS key ARN for ECR image encryption (empty = AES256) | `string` | `""` | no |
 | <a name="input_repository_names"></a> [repository\_names](#input\_repository\_names) | The names of the ECR repositories | `list(string)` | n/a | yes |
 
 ## Outputs
