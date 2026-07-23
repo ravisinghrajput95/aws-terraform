@@ -3,33 +3,33 @@
 version: 0.1
 
 projects:
-  - path: ../dev
+  - path: ../environments/dev
     name: dev
     terraform_vars:
       environment: dev
       vpc_cidr: "172.32.0.0/16"
       repository_names: ["dev-repo1"]
 
-  - path: ../qa
+  - path: ../environments/qa
     name: qa
     terraform_vars:
       environment: qa
       vpc_cidr: "172.33.0.0/16"
       repository_names: ["qa-repo1"]
 
-  - path: ../stage
+  - path: ../environments/stage
     name: stage
     terraform_vars:
       environment: stage
       vpc_cidr: "172.34.0.0/16"
       repository_names: ["stage-repo1"]
 
-  - path: ../production
+  - path: ../environments/production
     name: production
     terraform_vars:
       environment: production
       vpc_cidr: "172.35.0.0/16"
       repository_names: ["prod-repo1"]
 
-  - path: ../shared
+  - path: ../environments/shared
     name: shared

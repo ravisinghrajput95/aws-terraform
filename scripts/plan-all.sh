@@ -6,6 +6,6 @@ cd "$(dirname "$0")/.."
 
 for env in dev qa stage production; do
   echo "== plan: $env =="
-  terraform -chdir="$env" init -input=false >/dev/null
-  terraform -chdir="$env" plan -input=false -lock=false
+  terraform -chdir="environments/$env" init -input=false >/dev/null
+  terraform -chdir="environments/$env" plan -input=false -lock=false
 done

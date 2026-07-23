@@ -3,7 +3,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-for dir in bootstrap dev qa stage production shared; do
+for dir in bootstrap environments/dev environments/qa environments/stage environments/production environments/shared; do
   echo "== validate: $dir =="
   (
     cd "$dir"

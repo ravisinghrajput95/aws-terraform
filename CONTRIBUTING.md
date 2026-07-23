@@ -30,5 +30,5 @@ pre-commit install # optional: run fmt/validate/docs/tflint on commit
 
 ## Apply order
 
-`bootstrap` → `dev` / `qa` / `stage` / `production` → `shared`. See
+`bootstrap` → the four spokes in `environments/` → `environments/shared`. See
 [docs/architecture.md](docs/architecture.md).

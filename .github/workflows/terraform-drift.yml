@@ -38,7 +38,7 @@ jobs:
       TF_VAR_repository_names: ${{ matrix.repository_names }}
     defaults:
       run:
-        working-directory: ${{ matrix.dir }}
+        working-directory: environments/${{ matrix.dir }}
     steps:
       - uses: actions/checkout@v4
 
