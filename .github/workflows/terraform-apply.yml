@@ -1,0 +1,64 @@
+name: Terraform Apply
+
+# Deliberate, gated applies. Each config maps to a GitHub Environment, so you
+# can require manual approval (Settings -> Environments) — e.g. on production.
+on:
+  workflow_dispatch:
+    inputs:
+      dir:
+        description: "Config to apply"
+        required: true
+        type: choice
+        options: [bootstrap, dev, qa, stage, production, shared]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: terraform-apply-${{ github.event.inputs.dir }}
+  cancel-in-progress: false
+
+env:
+  TF_VERSION: "1.10.5"
+  AWS_REGION: ${{ vars.AWS_REGION || 'us-west-2' }}
+
+jobs:
+  apply:
+    name: apply (${{ github.event.inputs.dir }})
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.dir }} # approval gate lives here
+    permissions:
+      contents: read
+      id-token: write # AWS OIDC
+    defaults:
+      run:
+        working-directory: ${{ github.event.inputs.dir }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: false
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_TF_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Set spoke variables
+        run: |
+          echo "TF_VAR_environment=${{ github.event.inputs.dir }}" >> "$GITHUB_ENV"
+          case "${{ github.event.inputs.dir }}" in
+            dev)   echo 'TF_VAR_vpc_cidr=172.32.0.0/16' >> "$GITHUB_ENV"; echo 'TF_VAR_repository_names=["dev-repo1"]'   >> "$GITHUB_ENV" ;;
+            qa)    echo 'TF_VAR_vpc_cidr=172.33.0.0/16' >> "$GITHUB_ENV"; echo 'TF_VAR_repository_names=["qa-repo1"]'    >> "$GITHUB_ENV" ;;
+            stage) echo 'TF_VAR_vpc_cidr=172.34.0.0/16' >> "$GITHUB_ENV"; echo 'TF_VAR_repository_names=["stage-repo1"]' >> "$GITHUB_ENV" ;;
+            production) echo 'TF_VAR_vpc_cidr=172.35.0.0/16' >> "$GITHUB_ENV"; echo 'TF_VAR_repository_names=["prod-repo1"]' >> "$GITHUB_ENV" ;;
+          esac
+
+      - name: terraform init
+        run: terraform init -input=false
+
+      - name: terraform apply
+        run: terraform apply -input=false -auto-approve
