@@ -23,7 +23,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "config" {
   bucket = aws_s3_bucket.config.id
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      sse_algorithm     = var.kms_key_arn != "" ? "aws:kms" : "AES256"
+      kms_master_key_id = var.kms_key_arn != "" ? var.kms_key_arn : null
     }
     bucket_key_enabled = true
   }
@@ -131,7 +132,7 @@ resource "aws_iam_role_policy" "s3_delivery" {
   role = aws_iam_role.config.id
   policy = jsonencode({
     Version = "2012-10-17"
-    Statement = [
+    Statement = concat([
       {
         Effect    = "Allow"
         Action    = ["s3:PutObject"]
@@ -143,7 +144,14 @@ resource "aws_iam_role_policy" "s3_delivery" {
         Action   = ["s3:GetBucketAcl"]
         Resource = aws_s3_bucket.config.arn
       },
-    ]
+      ], var.kms_key_arn != "" ? [
+      {
+        Sid      = "KmsForDelivery"
+        Effect   = "Allow"
+        Action   = ["kms:GenerateDataKey", "kms:DescribeKey"]
+        Resource = var.kms_key_arn
+      }
+    ] : [])
   })
 }
 

@@ -11,6 +11,11 @@ module "eks" {
   enable_cluster_creator_admin_permissions = false
   authentication_mode                      = local.authentication_mode
 
+  # Envelope-encrypt Kubernetes secrets in etcd with a dedicated, module-managed CMK.
+  cluster_encryption_config = {
+    resources = ["secrets"]
+  }
+
   cluster_addons = {
     kube-proxy = {
       most_recent = true

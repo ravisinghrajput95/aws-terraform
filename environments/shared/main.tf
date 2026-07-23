@@ -3,8 +3,8 @@
 ########################################
 module "kms" {
   source             = "../../modules/security/kms"
-  alias              = "cloudcart-shared-logs"
-  description        = "CloudCart shared log encryption (flow logs, SSM session logs)"
+  alias              = "cloudcart-shared"
+  description        = "CloudCart shared encryption (flow logs, SSM session logs, Config bucket)"
   service_principals = ["logs.${var.aws_region}.amazonaws.com"]
 }
 

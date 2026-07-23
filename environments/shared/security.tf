@@ -15,6 +15,7 @@ module "aws_config" {
   source      = "../../modules/security/config"
   name        = "cloudcart-config"
   bucket_name = var.config_bucket_name
+  kms_key_arn = module.kms.key_arn
 }
 
 module "security_hub" {
