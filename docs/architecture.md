@@ -19,7 +19,7 @@ modules/
   security/        # kms, secrets, role, guardduty, cloudtrail, config, securityhub, access-analyzer
   storage/         # ecr, tf-backend
   observability/   # monitoring
-examples/  scripts/  docs/  packer/  .github/
+scripts/  docs/  packer/  .github/
 ```
 
 ## Environments
