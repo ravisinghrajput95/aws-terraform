@@ -29,3 +29,10 @@ module "eks" {
   vpc_cidr           = var.vpc_cidr
   bastion_cidr       = var.bastion_cidr
 }
+
+module "monitoring" {
+  source         = "../modules/monitoring"
+  environment    = var.environment
+  db_instance_id = module.postgres.db_instance_id
+  alarm_email    = var.alarm_email
+}

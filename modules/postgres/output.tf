@@ -44,3 +44,8 @@ output "db_instance_availability_zone" {
   description = "The availability zone of the RDS instance"
   value       = module.postgres.db_instance_availability_zone
 }
+
+output "db_instance_id" {
+  description = "RDS instance identifier"
+  value       = module.postgres.db_instance_id
+}
